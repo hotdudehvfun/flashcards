@@ -1,11 +1,10 @@
 document.addEventListener("DOMContentLoaded", function ()
 {
-    loadData();
+    
     registerEvents();
 });
 
 registerEvents();
-
 
 function registerEvents() {
     let timeTaken = 0, lastTimeStamp = 0;
@@ -48,19 +47,7 @@ document.querySelector("#add-content").onclick = () =>
     input.setAttribute("contenteditable", "true");
 };
 
-document.querySelector("#open-page-viewer").onclick = function()
-{
-    if(this.getAttribute("data-ishidden")=="true")
-    {
-        this.setAttribute("data-ishidden","false")
-        document.querySelector("page-viewer").style.display="flex";
-        loadPageTitles();
-    }else
-    {
-        this.setAttribute("data-ishidden","true");
-        document.querySelector("page-viewer").style.display="none";        
-    }
-};
+
 
 
 
