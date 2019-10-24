@@ -22,6 +22,8 @@ let links =
     }, {
         "text": "Advocate General of the State",
         "relPath": "Advocate General of the State.html"
-    }
-
-];
+    },
+    {
+        "text": "CAG",
+        "relPath": "CAG.html"
+    }];
