@@ -23,7 +23,10 @@
 }
 
 
-
+@font-face {
+  font-family: MyFont;
+  src: url(font.ttf);
+}
 
 
 body {
@@ -36,7 +39,7 @@ body {
 
 * {
   box-sizing: border-box;
-  font-family: "sans-serif";
+  font-family: MyFont;
 }
 
 chapter {
@@ -66,7 +69,7 @@ card {
   border-left: 4px solid #00BCD4;
 }
 
-card.note {
+.note {
     background: #fff3d4;
     border-left: 4px solid #f6b73c;
 }
@@ -134,4 +137,23 @@ page-link {
   border-radius: 3px;
   margin: 5px;
   display: table;
+}
+link-container>a>div {
+  background: #8080801f;
+  text-align: center;
+  padding: 10px;
+  width: 90%;
+  margin-left: 5%;
+  border-radius: 2px;
+  margin-top: 10px;
+}
+
+link-container>a
+{
+  text-decoration:none;
+  color:black;
+}
+
+link-container {
+  overflow: auto;
 }
