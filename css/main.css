@@ -21,14 +21,6 @@
     font-size: 18px;
   }
 }
-
-
-@font-face {
-  font-family: MyFont;
-  src: url(font.ttf);
-}
-
-
 body {
   margin: 0;
   padding: 0;
@@ -39,7 +31,7 @@ body {
 
 * {
   box-sizing: border-box;
-  font-family: MyFont;
+  font-family: sans-serif;
 }
 
 chapter {
