@@ -26,4 +26,11 @@ let links =
     {
         "text": "CAG",
         "relPath": "CAG.html"
-    }];
+    },
+    {
+        "text":"Land Reforms",
+        "relPath":"land reforms.html"
+    }
+
+
+];
