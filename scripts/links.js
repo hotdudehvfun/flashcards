@@ -30,7 +30,14 @@ let links =
     {
         "text":"Land Reforms",
         "relPath":"land reforms.html"
+    },
+    {
+        "text":"Historical Background",
+        "relPath":"Polity chapter 1 historical background.htm"
+    },
+    {
+        "text":"Anglo Mysore Wars",
+        "relPath":"Anglo Mysore Wars.htm"
     }
-
-
+    
 ];
