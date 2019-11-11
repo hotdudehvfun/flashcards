@@ -108,25 +108,45 @@ fab {
   box-shadow: 0px 2px 2px #adadad;
 }
 
+page-viewer {
+  display: flex;
+  width: 80%;
+  height: 35%;
+  background: white;
+  position: fixed;
+  left: 10%;
+  top: 40%;
+  padding: 10px 10px;
+  border-radius: 10px;
+  overflow: auto;
+  flex-wrap: wrap;
+}
 
-
-.page-link {
+page-link {
+  background: mediumpurple;
+  color: white;
   padding: 10px 10px;
   border-radius: 3px;
   margin: 5px;
   display: table;
-  border-left: 3px solid #4285f4;
-  box-shadow:0px 2px 2px #80808080;
+}
+link-container>a>div {
+  background: #8080801f;
+  text-align: center;
+  padding: 10px;
+  width: 90%;
+  margin-left: 5%;
+  border-radius: 2px;
+  margin-top: 10px;
 }
 
-
-.page-link>a
+link-container>a
 {
   text-decoration:none;
-  color:#303030;
+  color:black;
 }
 
-.link-container
+link-container
 {
   overflow: auto;
 }

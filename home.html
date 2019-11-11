@@ -4,29 +4,31 @@
     <title style="display: none;">Flash Cards</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/main.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.9/angular.min.js"></script>
 </head>
 
-<body>
-
-    <chapter>Notes</chapter>
-    <link-container>
-
-    </link-container>
+<body ng-app="myApp" ng-controller="controlLinks">
+   <chapter>
+       Notes:{{links.length}}
+    </chapter> 
+    <ul class="link-container">
+        <li class="page-link" ng-repeat='link in links'>
+                <td>
+                    <a href= {{link.relPath}} >{{ link.text }}</a>
+                </td>
+        </li>
+    </ul>
 
     <script src="scripts/links.js"></script>
     <script>
-       
-        loadLinks = () => {
-            let html = "";
-            links.forEach(link => {
-                html += `<a href='${link.relPath}'>`;
-                html += `<div class='note'> ${link.text} </div>`;
-                html += `</a>`;
-            })
-            document.querySelector("link-container").innerHTML = html;
-        }
-        loadLinks();
-
+        let app=angular.module("myApp",[]);
+        app.controller("controlLinks",function($scope)
+        {
+            $scope.links=links;
+            $scope.handleClickOnLink=function(link){
+                window.location=link.relPath;
+            }
+        });
     </script>
 </body>
 

@@ -32,12 +32,21 @@ let links =
         "relPath":"land reforms.html"
     },
     {
-        "text":"Historical Background",
+        "text":"Polity:Chapter 1 Historical Background",
         "relPath":"Polity chapter 1 historical background.htm"
+    },
+    {
+        "text":"Polity:Chapter 3 Salient Features of Constitution",
+        "relPath":"Polity chapter 3 Salient Features of Constitution.htm"
     },
     {
         "text":"Anglo Mysore Wars",
         "relPath":"Anglo Mysore Wars.htm"
+    },
+    {
+        "text":"Emergency Provisions",
+        "relPath":"Emergency Provisions.htm"
     }
+    
     
 ];
