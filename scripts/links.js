@@ -32,6 +32,14 @@ let links =
         "relPath":"land reforms.html"
     },
     {
+        "text":"Anglo Mysore Wars",
+        "relPath":"Anglo Mysore Wars.htm"
+    },
+    {
+        "text":"Emergency Provisions",
+        "relPath":"Emergency Provisions.htm"
+    },
+    {
         "text":"Polity:Chapter 1 Historical Background",
         "relPath":"Polity chapter 1 historical background.htm"
     },
@@ -40,13 +48,15 @@ let links =
         "relPath":"Polity chapter 3 Salient Features of Constitution.htm"
     },
     {
-        "text":"Anglo Mysore Wars",
-        "relPath":"Anglo Mysore Wars.htm"
-    },
-    {
-        "text":"Emergency Provisions",
-        "relPath":"Emergency Provisions.htm"
+        "text":"Polity chapter 4 Preamble",
+        "relPath":"Polity chapter 4 Preamble.html"
     }
+    ,
+    {
+        "text":"Polity chapter 5 Union and Its Territory",
+        "relPath":"Polity chapter 5 Union and Its Territory.html"
+    }
+    
     
     
 ];

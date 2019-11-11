@@ -26,7 +26,7 @@ body {
   padding: 0;
   height: 100%;
   width: 100%;
-  font-size: 120%;
+  /* min-width: 300px; */
 }
 
 * {
@@ -130,4 +130,3 @@ fab {
 {
   overflow: auto;
 }
-  
