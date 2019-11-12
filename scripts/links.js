@@ -44,6 +44,10 @@ let links =
         "relPath":"Polity chapter 1 historical background.htm"
     },
     {
+        "text":"Polity chapter 2 Making of Constitution",
+        "relPath":"Polity chapter 2 Making of Constitution.htm"
+    },
+    {
         "text":"Polity:Chapter 3 Salient Features of Constitution",
         "relPath":"Polity chapter 3 Salient Features of Constitution.htm"
     },
