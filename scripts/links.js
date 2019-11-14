@@ -40,6 +40,10 @@ let links =
         "relPath":"Emergency Provisions.htm"
     },
     {
+        "text":"Writs Notes",
+        "relPath":"Writs.htm"
+    },
+    {
         "text":"Polity:Chapter 1 Historical Background",
         "relPath":"Polity chapter 1 historical background.htm"
     },
@@ -54,13 +58,13 @@ let links =
     {
         "text":"Polity chapter 4 Preamble",
         "relPath":"Polity chapter 4 Preamble.html"
-    }
-    ,
+    },
     {
         "text":"Polity chapter 5 Union and Its Territory",
         "relPath":"Polity chapter 5 Union and Its Territory.html"
+    },
+    {
+        "text":"Polity chapter 6 Fundamental Rights",
+        "relPath":"Polity chapter 6 Fundamental Rights.htm"
     }
-    
-    
-    
 ];
