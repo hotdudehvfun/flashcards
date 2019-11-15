@@ -67,4 +67,10 @@ let links =
         "text":"Polity chapter 6 Fundamental Rights",
         "relPath":"Polity chapter 6 Fundamental Rights.htm"
     }
+    ,
+    {
+        "text":"Polity chapter 8 DPSP",
+        "relPath":"Polity chapter 8 DPSP.html"
+    }
+    
 ];

@@ -108,4 +108,19 @@ card>div:before:empty
 {
   overflow: auto;
 }
+
+.mytable
+{
+    border:1px solid #80808078;
+}
+
+.mytable tr
+{
+    line-height:3;
+}
+.mytable tr:nth-child(odd)
+{
+    background:aliceblue;
+}
+
   
