@@ -72,5 +72,21 @@ let links =
         "text":"Polity chapter 8 DPSP",
         "relPath":"Polity chapter 8 DPSP.html"
     }
+    ,
+    {
+        "text":"Polity chapter 9 Fundamenta Duties",
+        "relPath":"Polity chapter 9 Fundamenta Duties.html"
+    }
+    ,
+    {
+        "text":"Polity chapter 10 Amendment to constitution",
+        "relPath":"Polity chapter 10 Amendment to constitution.html"
+    }
+    ,
+    {
+        "text":"Polity chapter 11 Basic Structure Cases",
+        "relPath":"Polity chapter 11 Basic Structure Cases.html"
+    }
+    
     
 ];
