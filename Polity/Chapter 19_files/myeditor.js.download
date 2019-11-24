@@ -23,12 +23,8 @@ $(document).on('keydown', '.editor', function (e) {
     document.querySelector("title").innerHTML = document.querySelector("#chapter").innerHTML;
 });
 
+document.addEventListener("keydown", function () {
 
-
-
-
-document.addEventListener("keydown", function ()
-{
     console.log(event.keyCode);
     if (event.ctrlKey && event.keyCode == 69) {
         console.log("slign");
@@ -57,17 +53,6 @@ document.addEventListener("keydown", function ()
         fontSize--;
         window.getSelection().anchorNode.parentElement.style.fontSize = fontSize;
     }
-
-    if (event.ctrlKey && event.keyCode == 76)
-    {
-        console.log(window.getSelection());
-        event.preventDefault();
-        window.getSelection().anchorNode.innerHTML="<ol><li></li></ol>";
-    }
-
-    
-
-
 })
 
 

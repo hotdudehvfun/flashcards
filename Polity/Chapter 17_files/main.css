@@ -26,7 +26,8 @@ body {
   padding: 0;
   height: 100%;
   width: 100%;
-  /* min-width: 300px; */
+  font-size: 120%;
+  line-height: 1.5;
 }
 
 * {
@@ -34,7 +35,8 @@ body {
   font-family: sans-serif;
 }
 
-chapter {
+chapter
+{
   display: block;
   text-align: center;
   width: 100%;
@@ -50,16 +52,6 @@ chapter-sub {
   font-size: 100%;
 }
 
-card {
-  display: flex;
-  flex-direction: column;
-  background: whitesmoke;
-  width: 90%;
-  margin: 5% 5%;
-  padding: 10px 10px;
-  font-size: 135%;
-  border-left: 4px solid #00BCD4;
-}
 
 .note {
     background: #fff3d4;
@@ -92,61 +84,28 @@ card>div:before:empty
   background:red;
 }
 
-fab {
-  display: flex;
-  background: #009688;
-  color: white;
-  position: fixed;
-  right: 8px;
-  border-radius: 100px;
-  bottom: 10px;
-  width: 40px;
-  height: 40px;
-  justify-content: center;
-  align-content: center;
-  font-size: 28px;
-  box-shadow: 0px 2px 2px #adadad;
-}
 
-page-viewer {
-  display: flex;
-  width: 80%;
-  height: 35%;
-  background: white;
-  position: fixed;
-  left: 10%;
-  top: 40%;
-  padding: 10px 10px;
-  border-radius: 10px;
-  overflow: auto;
-  flex-wrap: wrap;
-}
 
-page-link {
-  background: mediumpurple;
-  color: white;
+
+
+.page-link {
   padding: 10px 10px;
   border-radius: 3px;
   margin: 5px;
   display: table;
-}
-link-container>a>div {
-  background: #8080801f;
-  text-align: center;
-  padding: 10px;
-  width: 90%;
-  margin-left: 5%;
-  border-radius: 2px;
-  margin-top: 10px;
+  border-left: 3px solid #4285f4;
+  box-shadow:0px 2px 2px #80808080;
 }
 
-link-container>a
+
+.page-link>a
 {
   text-decoration:none;
-  color:black;
+  color:#303030;
 }
 
-link-container
+.link-container
 {
   overflow: auto;
 }
+  
