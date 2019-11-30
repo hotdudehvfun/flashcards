@@ -84,6 +84,10 @@ card>div:before:empty
   background:red;
 }
 
+
+
+
+
 .page-link {
   padding: 10px 10px;
   border-radius: 3px;
@@ -105,8 +109,3 @@ card>div:before:empty
   overflow: auto;
 }
   
-#cursor
-{
-  display: inline;
-    border: 3px solid #2196F3;
-}

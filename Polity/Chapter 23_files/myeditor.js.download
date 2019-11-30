@@ -4,19 +4,21 @@ function insertTab() {
     if (!sel.rangeCount) return;
     const range = sel.getRangeAt(0);
     range.collapse(true);
-    
     const span = document.createElement('span');
     span.appendChild(document.createTextNode('\t'));
     span.style.whiteSpace = 'pre';
-    
     range.insertNode(span);
-    
     // Move the caret immediately after the inserted span
     range.setStartAfter(span);
     range.collapse(true);
     sel.removeAllRanges();
     sel.addRange(range);
 }
+
+
+
+
+
 
 
 document.querySelector(".editor").addEventListener("keydown", function ()
@@ -61,42 +63,18 @@ document.querySelector(".editor").addEventListener("keydown", function ()
     if (event.ctrlKey && event.keyCode == 76)
     {
         console.log("list");
+        console.log(window.getSelection());
         event.preventDefault();
-        //window.getSelection().anchorNode.innerHTML="<ol><li></li></ol>";
-        insertHtmlAtCursor("<ol><li></li></ol>");
+        window.getSelection().anchorNode.innerHTML="<ol><li></li></ol>";
     }
 
-    let cursor=document.querySelector("#cursor");
-    if(cursor!=null)
+    if(event.keyCode>=65&&event.keyCode<=91)
     {
-        cursor.parentElement.removeChild(cursor);
-    }
-    
-});
-
-
-document.querySelector(".editor").addEventListener("keyup",function()
-{
-    try
-    {
-        document.querySelector("title").innerHTML=document.querySelector("#chapter").innerText;
-    }catch(e){}
-});
-
-
-function insertHtmlAtCursor(html)
-{
-    var sel, range, node;
-    if (window.getSelection) {
-        sel = window.getSelection();
-        if (sel.getRangeAt && sel.rangeCount) {
-            range = window.getSelection().getRangeAt(0);
-            node = range.createContextualFragment(html);
-            range.insertNode(node);
-        }
-    } else if (document.selection && document.selection.createRange) {
-        document.selection.createRange().pasteHTML(html);
-    }
-}
+        console.log("letter");
+        let text=window.getSelection().anchorNode.textContent.split(" ");
+        let offset=window.getSelection().anchorOffset;
+        console.log(text[text.length-1],offset);
+    }  
+})
 
 

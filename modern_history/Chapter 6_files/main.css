@@ -105,8 +105,3 @@ card>div:before:empty
   overflow: auto;
 }
   
-#cursor
-{
-  display: inline;
-    border: 3px solid #2196F3;
-}
