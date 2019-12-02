@@ -90,7 +90,7 @@ card>div:before:empty
   border-radius: 3px;
   margin: 5px;
   display: table;
-  border-left: 3px solid #f6b73c;
+  border-left: 3px solid #4285f4;
   box-shadow:0px 2px 2px #80808080;
 }
 
@@ -104,4 +104,10 @@ card>div:before:empty
 .link-container
 {
   overflow: auto;
+}
+  
+#cursor
+{
+  display: inline;
+    border: 3px solid #2196F3;
 }

@@ -82,8 +82,6 @@ document.querySelector("#chapter").addEventListener("keyup",function()
     try
     {
         document.querySelector("#title").innerHTML=document.querySelector("#chapter").value.trim();
-        document.querySelector("#chapter").setAttribute("value",document.querySelector("#chapter").value.trim());
-
     }catch(e){}
 });
 

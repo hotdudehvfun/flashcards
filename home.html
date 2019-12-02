@@ -11,23 +11,29 @@
    <chapter>
        Notes:{{links.length}}
     </chapter> 
-    <ul class="link-container">
-        <li class="page-link" ng-repeat='link in links'>
-                <td>
-                    <a href= {{link.relPath}} >{{ link.text }}</a>
-                </td>
-        </li>
-    </ul>
+    
+    <div class="note">
+        <span>
+            Polity Notes
+        </span>
+        <ul class="link-container">
+                <li class="page-link" ng-repeat='link in links'>
+                        <td>
+                            <a href={{path+link.fileName}} >{{ link.text }}</a>
+                        </td>
+                </li>
+            </ul>
+
+    </div>
+   
 
     <script src="scripts/links.js"></script>
     <script>
         let app=angular.module("myApp",[]);
         app.controller("controlLinks",function($scope)
         {
-            $scope.links=links;
-            $scope.handleClickOnLink=function(link){
-                window.location=link.relPath;
-            }
+            $scope.links=polityChapters;
+            $scope.path="Polity/";
         });
     </script>
 </body>

@@ -22,7 +22,6 @@ function insertTab() {
 document.querySelector(".editor").addEventListener("keydown", function ()
 {
     //console.log(window.getSelection());
-    event.stopPropagation();
     console.log(event.keyCode);
     if (event.keyCode == 9)
     {
@@ -76,14 +75,11 @@ document.querySelector(".editor").addEventListener("keydown", function ()
 });
 
 
-document.querySelector("#chapter").addEventListener("keyup",function()
-{    
-    console.log("chapter");
+document.querySelector(".editor").addEventListener("keyup",function()
+{
     try
     {
-        document.querySelector("#title").innerHTML=document.querySelector("#chapter").value.trim();
-        document.querySelector("#chapter").setAttribute("value",document.querySelector("#chapter").value.trim());
-
+        document.querySelector("title").innerHTML=document.querySelector("#chapter").innerText;
     }catch(e){}
 });
 

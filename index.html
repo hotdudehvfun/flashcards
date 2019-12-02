@@ -1,14 +1,15 @@
 <html>
 
 <head>
-    <title>Chapter</title>
+    <title id="title"></title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link rel="stylesheet" href="css/main.css">
 </head>
 
-<body class="editor" contenteditable="true">
-        <chapter id="chapter">Chapter</chapter>
+<body class="editor" contenteditable="true" ng-app="">
+        <input ng-model="chapter_name"  id="chapter" value="Chapter"/>
         <chapter-sub>Subtitle</chapter-sub>
         <div>type here</div>
     <script src="myeditor.js"></script>
