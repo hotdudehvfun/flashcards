@@ -23,52 +23,10 @@ let hintBox = document.querySelector('.suggestions');
 let selectedNode = 0;
 let currentWord = "null";
 
-
-document.addEventListener("keyup",function(){
-    console.log(event.keyCode);
-    if (event.keyCode == 27)
-    {
-        resetHintBox();
-    }
-    if (event.keyCode == 32) {
-        showHintBox();
-    }
-    if (event.ctrlKey && event.keyCode == 32) {
-        showHintBox();
-    }
-    handleHint(event);
-})
-
-
-
-
-
-document.addEventListener('keydown', function ()
-{
-   
-
-    
-    if (event.ctrlKey && event.keyCode == 79) {
-        console.log("open dialog");
-        event.preventDefault();
-        openChapterDialog();
-    }
-
-    if (event.ctrlKey && event.keyCode == 83) {
-        console.log("saving");
-        event.preventDefault();
-        let output = `{ title: "${document.querySelector('#chapter').value} ${document.querySelector('.subtitle').value} ",`;
-        output += "content:" + '`' + document.querySelector('#injectHtml').innerHTML.trim() + "`}";
-        console.log(output);
-        copyToClipboard(output);
-    }
-
-    if (event.ctrlKey && event.keyCode == 76) {
-        console.log("list");
-        event.preventDefault();
-        insertHtmlAtCursor("<ol><li></li></ol>");
-    }
-
+document.querySelector(".editor").addEventListener("keydown", function () {
+    //console.log(window.getSelection());
+    event.stopPropagation();
+    //console.log(event.keyCode);
     if (event.keyCode == 9) {
         insertTab();
         event.preventDefault();
@@ -102,117 +60,22 @@ document.addEventListener('keydown', function ()
         window.getSelection().anchorNode.parentElement.style.fontSize = fontSize;
     }
 
-
-
-    if (event.ctrlKey && event.keyCode == 83) {
-        console.log("saving");
+    if (event.ctrlKey && event.keyCode == 76) {
+        console.log("list");
         event.preventDefault();
-        let output = `,{ title: "${document.querySelector('#chapter').value} ${document.querySelector('.subtitle').value} ",`;
-        output += "content:" + '`' + document.querySelector('#injectHtml').innerHTML.trim() + "`}";
-        console.log(output);
-        copyToClipboard(output);
+        insertHtmlAtCursor("<ol><li></li></ol>");
     }
-
-
-
-if (showHint) {
-        if (event.keyCode == 38 || event.keyCode == 40 || event.keyCode == 13) {
+    if(showHint)
+    {
+        if(event.keyCode==38 || event.keyCode==40 ||event.keyCode==13)
+        {
             event.preventDefault();
         }
     }
 
-})
-
-function changeColor()
-{
-    let range=window.getSelection().getRangeAt(0);
-    let p=range.startContainer.parentElement;
-    let original=p.innerHTML;
-    original=original.substring(0,range.startOffset)+"<span class='myBold'>"+original.substring(range.startOffset,range.endOffset)+"</span>"+original.substring(range.endOffset);
-    console.log(original);
-    p.innerHTML=original;
-    
-}
-
-function openChapterDialog()
-{
-    document.querySelector('.load-chapter-parent').style.display = "block";
-    document.querySelector('#search-chapter').value = "";
-    document.querySelector('#chapters-list').innerHTML="";
-    
-    prepareIndex("Spectrum Chapters",chapterContent_Spectrum);
-    prepareIndex("Class 6 History",class_6_history);
-    prepareIndex("Class 12 History",Class_12_History);
-    prepareIndex("Polity",chapterContent_Polity);
-
-}
-
-// load chapters of subjects
-function prepareIndex(heading,list)
-{
-    let article =document.createElement("article");
-    article.innerHTML= `${heading}`;
-    article.setAttribute("data-isChildInView","true")
-    article.addEventListener("click",function()
-    {
-        //toggle children view
-       console.log(this.getAttribute("data-isChildInView"));
-        if(this.getAttribute("data-isChildInView")=="true")
-        {
-            this.setAttribute("data-isChildInView","false");
-            changeViewOfChild("none")
-        }else{
-            this.setAttribute("data-isChildInView","true");
-            changeViewOfChild("block")
-        }
-    });
-
-    function changeViewOfChild(args)
-    {
-        // console.log(document.querySelectorAll('.child-of-'+heading))
-        let targetClass=".child-of-"+heading.replace(/\s+/g,"-");
-        // console.log(targetClass)
-        // console.log(document.querySelectorAll(targetClass))
-        document.querySelectorAll(targetClass).forEach(item=>{
-
-            item.style.display=args;
-        });
-    }
-
-    document.querySelector('#chapters-list').appendChild(article);
-    list.forEach((item, index) =>
-    {
-        let child=document.createElement("div");
-        child.innerHTML=`${item.title}`;
-        let childClass=heading.replace(/\s+/g,"-")
-        child.setAttribute("class", `child-of-${childClass}`)
-        child.addEventListener('click',function()
-        {
-            loadChapter(list,index);
-        });
-        document.querySelector('#chapters-list').appendChild(child);
-    });
-
-}
-
-function closeChapterDialog() {
-    document.querySelector('.load-chapter-parent').style.display = "none";
-}
-
-function loadChapter(subject, index) {
-    document.querySelector("#injectHtml").innerHTML = subject[index].content;
-    document.querySelector('.load-chapter-parent').style.display = "none";
-}
 
 
-function copyToClipboard(text) {
-    var dummy = document.createElement("textarea");
-    document.body.appendChild(dummy);
-    dummy.value = text;
-    dummy.select();
-    document.execCommand("copy");
-    document.body.removeChild(dummy);
-}
+});
 
 function resetHintBox() {
     showHint = false;
@@ -221,8 +84,8 @@ function resetHintBox() {
 }
 function showHintBox() {
     showHint = true;
-    hintBox.style.display = "flex";
-    // console.log('hint on')
+    hintBox.style.display = "inline";
+    console.log('hint on')
     positionHintBox();
     selectedNode = -1;
 }
@@ -257,14 +120,16 @@ function handleHint(event) {
                 hintBox.childNodes[selectedNode].className = 'selectedHint';
             } else
                 if (event.keyCode == 13) {
-                    if (document.querySelector('.selectedHint') == null) {
+                    if (document.querySelector('.selectedHint') == null)
+                    {
                         //enter press when hint is on and now hint selected
-
+                        console.log('p')
                         showHint = false;
                         hintBox.style.display = "none";
-                    } else {
+                    } else
+                    {
                         event.preventDefault();
-
+                        console.log('inserting word')
                         //use this word
                         let wordToInsert = document.querySelector('.selectedHint').innerText.trim();
                         insertHint(wordToInsert, currentWord);
@@ -277,84 +142,92 @@ function handleHint(event) {
                     currentWord = getCurrentWord();
                     if (currentWord.length > 0)
                     {
-                        loadHintsInHintBox();
+                        let s=document.querySelector('#script');
+                        document.querySelector("body").removeChild(s);
+                        s=document.createElement("script");
+                        s.id="script";
+                        s.setAttribute("src",`http://suggestqueries.google.com/complete/search?client=chrome&q=${currentWord}&callback=handleDataFromGoogle`);
+                        document.querySelector("body").appendChild(s);
 
-                    } else {
-                        hintBox.style.display = "none";
+
+                    }else{
+                        hintBox.style.display="none";
                     }
                 }
     }
 }
-
-
-function loadHintsInHintBox()
+function handleDataFromGoogle(data)
 {
-let words=document.querySelector('.editor').innerText.split(/\n| /);
-let u=[...new Set(words)];
-let html = '';
-words=u;
-words.forEach(item=>
-{
-    if(item.toLocaleLowerCase().indexOf(currentWord.toLocaleLowerCase())!=-1)
-    {
-        html += `<li>${item}</li>`;
-    }
-});
-
-
-if (html.length > 0) {
-        hintBox.innerHTML = html;
-        hintBox.style.display = "flex";
-        positionHintBox();
-    } else {
-        hintBox.style.display = "none";
-    }
-}
-
-function handleDataFromGoogle(data) {
     let html = '';
     // console.log('all words=' + words)
-    let limit = 5;
-    data[1].forEach((item, index) => {
-        if (index <= limit) {
+    let limit=5;
+    data[1].forEach((item,index) =>
+    {
+        if (index<=limit)
+        {
             // console.log(item);
             html += `<li>${item}</li>`;
         }
     });
-    if (html.length > 0) {
-        hintBox.innerHTML = html;
-        hintBox.style.display = "flex";
-        positionHintBox();
-    } else {
-        hintBox.style.display = "none";
-    }
-}
-
-function positionHintBox()
-{
-    let p=window.getSelection().getRangeAt(0).startContainer.parentElement;
-    if(p!=undefined || p!=null)
+    if (html.length > 0)
     {
-        let calc=p.getBoundingClientRect();
-        console.log(p)
-        hintBox.style.top=(calc.y+calc.height)+'px';
+        hintBox.innerHTML = html;
+        hintBox.style.display = "inline";
+        positionHintBox();
+    }else
+    {
+        hintBox.style.display="none";    
+    }
+}
+document.querySelector(".editor").addEventListener("keyup", function () {
 
+    // console.log(event.keyCode);
+    if (event.keyCode == 27) {
+        resetHintBox();
+    }
+    if (event.keyCode == 32) {
+       showHintBox();
+    }
+    if (event.ctrlKey && event.keyCode == 32) {
+        showHintBox();
+    }
+
+    handleHint(event);
+
+
+});
+
+function positionHintBox() {
+    try {
+        let range = window.getSelection().getRangeAt(0);
+        let rect = range.endContainer.parentElement.getBoundingClientRect();
+        hintBox.style.top = (rect.top+10) + 'px';
+
+        document.querySelector('#dummy').innerHTML = range.endContainer.textContent.toString().substring(0, range.endOffset);
+        rect = document.querySelector('#dummy').getBoundingClientRect();
+        //console.log(range);
+        hintBox.style.left = (rect.width) + 'px';
+    } catch (e) {
+        console.log('no node');
     }
 }
 
-function changeFileName() {
+function changeFileName()
+{
     document.querySelector("#chapter").setAttribute("value", document.querySelector("#chapter").value.trim());
     document.querySelector(".subtitle").setAttribute("value", document.querySelector(".subtitle").value.trim());
-    document.querySelector("#title").innerHTML = document.querySelector("#chapter").value + " " + document.querySelector(".subtitle").value
+    document.querySelector("#title").innerHTML=document.querySelector("#chapter").value+" "+document.querySelector(".subtitle").value
 }
 
 document.querySelector("#chapter").addEventListener("keyup", function () {
-    try {
+    try
+    {
         changeFileName();
     } catch (e) { }
 });
 document.querySelector(".subtitle").addEventListener("keyup", function () {
-    try {
+    try
+    {
         changeFileName();
     } catch (e) { }
 });
@@ -367,7 +240,7 @@ function isAlphanumeric(char) {
 }
 function getCurrentWord() {
 
-    let currentWord = "";
+    let currentWord="";
     let range = window.getSelection().getRangeAt(0);
     let wholeText = range.endContainer.wholeText.toString();
     let pos = range.endOffset;
@@ -386,7 +259,7 @@ function getCurrentWord() {
             // console.log("end")
             if (isAlphanumeric(wholeText[pos - 1])) {
                 //check if left of cursor is a char
-                currentWord = wholeText.substring(wholeText.lastIndexOf(" "), pos);
+                currentWord = wholeText.substring(wholeText.lastIndexOf(" "),pos);
             }
         }
         if (pos < wholeText.length && pos > 0) {
@@ -395,24 +268,25 @@ function getCurrentWord() {
                 // console.log('testign -1 +1',wholeText[pos-1],wholeText[pos])
                 // //abc abc| abc
                 currentWord = wholeText.substring(0, pos);
-                currentWord = currentWord.substring(currentWord.lastIndexOf(" ") + 1, pos);
+                currentWord = currentWord.substring(currentWord.lastIndexOf(" ")+1, pos);
 
             } else if (isAlphanumeric(wholeText[pos]) && wholeText[pos - 1] == " ") {
                 //abc |abc abc
                 // console.log('not working')
-                currentWord = wholeText.substring(pos, wholeText.indexOf(" ", pos));
+                currentWord = wholeText.substring(pos, wholeText.indexOf(" ",pos));
             } else if (isAlphanumeric(wholeText[pos]) && isAlphanumeric(wholeText[pos - 1])) {
                 //abc abc a|b
                 //abc abc abc   
                 //console.log('wokring')
                 let a = wholeText.substring(0, pos);
                 let b = wholeText.substring(pos, wholeText.length);
-                let nextspace = b.indexOf(" ");
-                if (nextspace == -1) {
+                let nextspace=b.indexOf(" ");
+                if(nextspace==-1)
+                {
                     //last word no space
-                    currentWord = a.substring(a.lastIndexOf(" ") + 1) + b;
-                } else {
-                    currentWord = a.substring(a.lastIndexOf(" ") + 1) + b.substring(0, b.indexOf(" "));
+                    currentWord = a.substring(a.lastIndexOf(" ")+1)+b;
+                }else{
+                    currentWord = a.substring(a.lastIndexOf(" ")+1) + b.substring(0, b.indexOf(" "));
 
                 }
             }
@@ -433,21 +307,20 @@ function insertHtmlAtCursor(html) {
         }
     }
 }
-function insertHint(newWord, oldWord) {
+function insertHint(html, word)
+{
     let range = window.getSelection().getRangeAt(0);
     console.log(range);
     let parent = range.endContainer.parentElement;
     let wholeText = range.endContainer.wholeText.toString();
-
-    //hello he|llo world
-    wholeText = wholeText.replace(oldWord, newWord);
-    //let insert=wholeText.substring(0, range.endOffset - word.length) + "" + html+" "+wholeText.substring(range.endOffset+word.length,wholeText.length);
-
-    parent.innerText = wholeText;
+    
+    let insert=wholeText.substring(0, range.endOffset - word.length) + "" + html+" "+wholeText.substring(range.endOffset+word.length,wholeText.length);
+    
+    console.log('inserted=' +insert);
+    parent.innerHTML=insert;
 
     //set cursor
-    range.setStart(parent.childNodes[0], parent.innerText.length);
-    range.collapse(true);
+    range.setEnd(parent,1);
 }
 
 

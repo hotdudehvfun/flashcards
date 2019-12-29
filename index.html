@@ -1,18 +1,57 @@
 <html>
 
 <head>
+    <!-- title used for file naming -->
     <title id="title"></title>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
-
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/main.css">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito+Sans:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i&amp;display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="main.css">
 </head>
 
-<body class="editor" contenteditable="true" ng-app="">
-        <input ng-model="chapter_name"  id="chapter" value="Chapter"/>
-        <chapter-sub>Subtitle</chapter-sub>
-        <div>type here</div>
-    <script src="myeditor.js"></script>
+<body>
+
+    <!-- display area -->
+    <div id='injectHtml'>
+        <input id="chapter" placeholder="Chapter" />
+        <input class="subtitle" placeholder="Chapter Name"></>
+        <div class="editor" contenteditable="true">
+            <div>Type Here</div>
+        </div>
+    </div>
+
+
+
+
+
+    <!-- extra tools -->
+    <ul class="suggestions"></ul>
+    <div class="load-chapter-parent" style="display: none;">
+        <div class="load-chapter">
+            <div style="
+            display: flex;
+            justify-content: space-between;
+        ">
+                <input placeholder="search chapter" id="search-chapter">
+                <div class="close-button" onclick="closeChapterDialog()">X</div>
+            </div>
+        <div id="chapters-list">
+        </div>
+    </div>
+    </div>
+    <div class="side-button" onclick="openChapterDialog()">Open Chapters</div>
+
+
+    <span id='dummy' style='opacity:0;'>dummy</span>
+    <script id='editor-script' src="myeditor.js"></script>
+        <script src="scripts/spectrum.js"></script>
+        <script src="scripts/polity.js"></script>
+        <script src="scripts/class_12_history.js"></script>
+        <script src="scripts/class_6_history.js"></script>
+        
+        
+    
 </body>
 
 </html>

@@ -23,11 +23,10 @@ body {
 }
 
 .content-holder {
-    background: white;
+    background: antiquewhite;
     box-shadow: 0px 2px 2px #0000006e;
-    border-radius: 100px;
     width: 90%;
-    max-height: calc( 100% - 200px);
+    height: calc( 100% - 200px);
     overflow: auto;
     top: 15px;
     align-self: center;
@@ -37,6 +36,7 @@ body {
     font-weight: bold;
     text-transform: capitalize;
     line-height: 2;
+    font-size: 120%;
 }
 
 .content-holder:after {
@@ -78,7 +78,6 @@ body {
 .selected {
     background: linear-gradient(#ff5b3d, #ff3e76);
     color: white;
-    border-radius: 100px;
 }
 .year:before {
     content: "";
