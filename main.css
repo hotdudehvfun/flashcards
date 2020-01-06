@@ -132,6 +132,8 @@ ul.suggestions {
   transform: translateX(-50%);
   left: 50%;
   z-index:10;
+  /* height: 100px; */
+  overflow-y: auto;
 }
 
 .suggestions>li {
@@ -160,9 +162,10 @@ span#dummy {
   display: flex;
   flex-direction: column;
   position: relative;
-  width: 50%;
+  width: 80%;
   min-width: 320px;
-  height: 400px;
+  height: 70%;
+  min-height: 450px;
   background: white;
   z-index: 99;
   top: 10%;
@@ -180,6 +183,7 @@ span#dummy {
   left: 0px;
   top: 0px;
   display: block;
+  z-index: 99;
 }
 
 #chapters-list {

@@ -1,3 +1,8 @@
+window.onload=function()
+{
+    handleAutoSave();
+}
+
 function insertTab() {
     if (!window.getSelection) return;
     const sel = window.getSelection();
@@ -25,7 +30,8 @@ let currentWord = "null";
 
 
 document.addEventListener("keyup",function(){
-    console.log(event.keyCode);
+    //console.log(event.keyCode);
+    changeFileName();
     if (event.keyCode == 27)
     {
         resetHintBox();
@@ -40,9 +46,6 @@ document.addEventListener("keyup",function(){
 })
 
 
-
-
-
 document.addEventListener('keydown', function ()
 {
    
@@ -54,13 +57,10 @@ document.addEventListener('keydown', function ()
         openChapterDialog();
     }
 
-    if (event.ctrlKey && event.keyCode == 83) {
-        console.log("saving");
+    if (event.ctrlKey && event.keyCode == 83)
+    {
         event.preventDefault();
-        let output = `{ title: "${document.querySelector('#chapter').value} ${document.querySelector('.subtitle').value} ",`;
-        output += "content:" + '`' + document.querySelector('#injectHtml').innerHTML.trim() + "`}";
-        console.log(output);
-        copyToClipboard(output);
+        saveChapter();
     }
 
     if (event.ctrlKey && event.keyCode == 76) {
@@ -122,6 +122,30 @@ if (showHint) {
     }
 
 })
+
+function handleAutoSave()
+{
+    //auto save after 1 minute
+    setInterval(function()
+    {
+        saveChapter(0);
+    },1000*60);
+}
+
+
+function saveChapter(args)
+{
+    //console.log("saving");
+    let output = `{ title: "${document.querySelector('#chapter').value} ${document.querySelector('.subtitle').value} ",`;
+    output += "content:" + '`' + document.querySelector('#injectHtml').innerHTML.trim() + "`}";
+    console.log(output);
+    localStorage.chapterData=output;
+    if(args==undefined)
+        copyToClipboard(output);
+    
+}
+
+
 
 function changeColor()
 {
@@ -336,7 +360,7 @@ function positionHintBox()
     if(p!=undefined || p!=null)
     {
         let calc=p.getBoundingClientRect();
-        console.log(p)
+        //console.log(p)
         hintBox.style.top=(calc.y+calc.height)+'px';
 
     }
@@ -347,19 +371,6 @@ function changeFileName() {
     document.querySelector(".subtitle").setAttribute("value", document.querySelector(".subtitle").value.trim());
     document.querySelector("#title").innerHTML = document.querySelector("#chapter").value + " " + document.querySelector(".subtitle").value
 }
-
-document.querySelector("#chapter").addEventListener("keyup", function () {
-    try {
-        changeFileName();
-    } catch (e) { }
-});
-document.querySelector(".subtitle").addEventListener("keyup", function () {
-    try {
-        changeFileName();
-    } catch (e) { }
-});
-
-
 
 
 function isAlphanumeric(char) {
