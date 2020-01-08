@@ -129,6 +129,7 @@ function handleAutoSave()
     setInterval(function()
     {
         saveChapter(0);
+        
     },1000*60);
 }
 
