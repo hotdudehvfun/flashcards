@@ -45,6 +45,11 @@
   }
 }
 
+@font-face {
+  font-family: MyFont;
+  src: url(font.ttf);
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -58,7 +63,7 @@ body {
 
 * {
   box-sizing: border-box;
-  font-family: 'Nunito Sans', sans-serif;
+  font-family: MyFont, sans-serif;
 
 }
 
