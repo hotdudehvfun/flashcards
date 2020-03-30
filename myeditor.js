@@ -1,6 +1,18 @@
 window.onload=function()
 {
     handleAutoSave();
+    try 
+    {
+        let args=this.getUrlVars();
+        console.log(args);
+        if(args.listIndex!=undefined && args.chapterIndex!=undefined)
+        {
+            document.querySelector("#injectHtml").innerHTML = listIndeces[args.listIndex][args.chapterIndex].content;
+            document.querySelector('.load-chapter-parent').style.display = "none";            
+        }                
+    } catch (error) {
+        
+    }
 }
 
 function insertTab() {
@@ -159,21 +171,35 @@ function changeColor()
     
 }
 
+
+
+
+
+
+
+
+let listIndeces=
+[
+    chapterContent_Spectrum,
+    class_6_history,
+    Class_12_History,
+    chapterContent_Polity,
+];
 function openChapterDialog()
 {
     document.querySelector('.load-chapter-parent').style.display = "block";
-    document.querySelector('#search-chapter').value = "";
     document.querySelector('#chapters-list').innerHTML="";
     
-    prepareIndex("Spectrum Chapters",chapterContent_Spectrum);
-    prepareIndex("Class 6 History",class_6_history);
-    prepareIndex("Class 12 History",Class_12_History);
-    prepareIndex("Polity",chapterContent_Polity);
+    //text, list index
+    prepareIndex("Spectrum Chapters",0);
+    prepareIndex("Class 6 History",1);
+    prepareIndex("Class 12 History",2);
+    prepareIndex("Polity",3);
 
 }
 
 // load chapters of subjects
-function prepareIndex(heading,list)
+function prepareIndex(heading,listIndex)
 {
     let article =document.createElement("article");
     article.innerHTML= `${heading}`;
@@ -205,7 +231,7 @@ function prepareIndex(heading,list)
     }
 
     document.querySelector('#chapters-list').appendChild(article);
-    list.forEach((item, index) =>
+    listIndeces[listIndex].forEach((item, index) =>
     {
         let child=document.createElement("div");
         child.innerHTML=`${item.title}`;
@@ -213,7 +239,7 @@ function prepareIndex(heading,list)
         child.setAttribute("class", `child-of-${childClass}`)
         child.addEventListener('click',function()
         {
-            loadChapter(list,index);
+            loadChapter(listIndex,index);
         });
         document.querySelector('#chapters-list').appendChild(child);
     });
@@ -224,9 +250,12 @@ function closeChapterDialog() {
     document.querySelector('.load-chapter-parent').style.display = "none";
 }
 
-function loadChapter(subject, index) {
-    document.querySelector("#injectHtml").innerHTML = subject[index].content;
+function loadChapter(listIndex, chapterIndex)
+{
+    console.log(listIndex,chapterIndex);
+    document.querySelector("#injectHtml").innerHTML = listIndeces[listIndex][chapterIndex].content;
     document.querySelector('.load-chapter-parent').style.display = "none";
+    window.location=`index.html?listIndex=${listIndex}&chapterIndex=${chapterIndex}`;
 }
 
 
@@ -445,6 +474,7 @@ function insertHtmlAtCursor(html) {
         }
     }
 }
+
 function insertHint(newWord, oldWord) {
     let range = window.getSelection().getRangeAt(0);
     console.log(range);
@@ -463,3 +493,10 @@ function insertHint(newWord, oldWord) {
 }
 
 
+function getUrlVars() {
+    var vars = {};
+    var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {
+        vars[key] = value;
+    });
+    return vars;
+}
