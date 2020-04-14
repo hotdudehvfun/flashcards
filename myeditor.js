@@ -1,3 +1,4 @@
+let fontSize=100;
 window.onload=function()
 {
     handleAutoSave();
@@ -13,7 +14,32 @@ window.onload=function()
     } catch (error) {
         
     }
+    prepareChapterDialog();
+    cleanEditor();
 }
+
+function cleanEditor()
+{
+    document.querySelectorAll("div").forEach(item=>{
+        item.removeAttribute("style");
+    })
+    
+    document.querySelectorAll("span").forEach(item=>{
+        item.removeAttribute("style");
+    })
+    
+    document.querySelectorAll("li").forEach(item=>{
+        item.removeAttribute("style");
+    })
+    
+    document.querySelectorAll("ol").forEach(item=>{
+        item.removeAttribute("style");
+    })
+    
+    
+    
+}
+
 
 function insertTab() {
     if (!window.getSelection) return;
@@ -96,22 +122,20 @@ document.addEventListener('keydown', function ()
         }
     }
 
-    if (event.ctrlKey && event.keyCode == 107) {
+    if (event.ctrlKey && event.keyCode == 107)
+    {
         console.log("font up");
         event.preventDefault();
-        let fontSize = window.getComputedStyle(window.getSelection().anchorNode.parentElement).fontSize;
-        fontSize = parseFloat(fontSize);
         fontSize++;
-        window.getSelection().anchorNode.parentElement.style.fontSize = fontSize;
+        document.querySelector(".editor").style.fontSize=fontSize+"%";
     }
 
-    if (event.ctrlKey && event.keyCode == 109) {
+    if (event.ctrlKey && event.keyCode == 109)
+    {
         console.log("font down");
         event.preventDefault();
-        let fontSize = window.getComputedStyle(window.getSelection().anchorNode.parentElement).fontSize;
-        fontSize = parseFloat(fontSize);
         fontSize--;
-        window.getSelection().anchorNode.parentElement.style.fontSize = fontSize;
+        document.querySelector(".editor").style.fontSize=fontSize+"%";
     }
 
 
@@ -156,7 +180,9 @@ function saveChapter(args)
     if(args==undefined)
         copyToClipboard(output);
     
-}
+
+        cleanEditor();
+    }
 
 
 
@@ -171,13 +197,6 @@ function changeColor()
     
 }
 
-
-
-
-
-
-
-
 let listIndeces=
 [
     chapterContent_Spectrum,
@@ -185,52 +204,37 @@ let listIndeces=
     Class_12_History,
     chapterContent_Polity,
 ];
-function openChapterDialog()
+
+function prepareChapterDialog()
 {
-    document.querySelector('.load-chapter-parent').style.display = "block";
-    document.querySelector('#chapters-list').innerHTML="";
-    
     //text, list index
     prepareIndex("Spectrum Chapters",0);
     prepareIndex("Class 6 History",1);
     prepareIndex("Class 12 History",2);
     prepareIndex("Polity",3);
 
+    loadChatersOfSubject("Spectrum Chapters",0);
 }
 
 // load chapters of subjects
 function prepareIndex(heading,listIndex)
 {
+  
+    let tabs=document.querySelector("#tabs");
+    console.log(tabs)
     let article =document.createElement("article");
     article.innerHTML= `${heading}`;
     article.setAttribute("data-isChildInView","true")
     article.addEventListener("click",function()
     {
-        //toggle children view
-       console.log(this.getAttribute("data-isChildInView"));
-        if(this.getAttribute("data-isChildInView")=="true")
-        {
-            this.setAttribute("data-isChildInView","false");
-            changeViewOfChild("none")
-        }else{
-            this.setAttribute("data-isChildInView","true");
-            changeViewOfChild("block")
-        }
+        loadChatersOfSubject(heading,listIndex);        
     });
+    tabs.appendChild(article);
+}
 
-    function changeViewOfChild(args)
-    {
-        // console.log(document.querySelectorAll('.child-of-'+heading))
-        let targetClass=".child-of-"+heading.replace(/\s+/g,"-");
-        // console.log(targetClass)
-        // console.log(document.querySelectorAll(targetClass))
-        document.querySelectorAll(targetClass).forEach(item=>{
-
-            item.style.display=args;
-        });
-    }
-
-    document.querySelector('#chapters-list').appendChild(article);
+function loadChatersOfSubject(heading,listIndex)
+{
+    document.querySelector('#tab-content').innerHTML="";
     listIndeces[listIndex].forEach((item, index) =>
     {
         let child=document.createElement("div");
@@ -241,14 +245,27 @@ function prepareIndex(heading,listIndex)
         {
             loadChapter(listIndex,index);
         });
-        document.querySelector('#chapters-list').appendChild(child);
+        document.querySelector('#tab-content').appendChild(child);
     });
 
+    try{
+
+        document.querySelector(".active").setAttribute("class","");
+    }catch(e){}
+    
+    document.querySelectorAll("article")[listIndex].setAttribute("class","active");
+
 }
 
-function closeChapterDialog() {
+function closeChapterDialog()
+{
     document.querySelector('.load-chapter-parent').style.display = "none";
 }
+function openChapterDialog()
+{
+    document.querySelector('.load-chapter-parent').style.display = "block";
+}
+
 
 function loadChapter(listIndex, chapterIndex)
 {
