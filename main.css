@@ -235,8 +235,10 @@ font-size: 33px;
 
 b
 {
-   color: #fc3159;
-  font-weight:bold;
+   color: #222;
+   background: #edaf00;
+   border-radius: 100px;
+   padding: 0px 5px;
 }
 
 .side-button {

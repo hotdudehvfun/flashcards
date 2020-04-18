@@ -16,6 +16,7 @@ window.onload=function()
     }
     prepareChapterDialog();
     cleanEditor();
+    
 }
 
 function cleanEditor()
@@ -36,7 +37,7 @@ function cleanEditor()
         item.removeAttribute("style");
     })
     
-    
+    closeChapterDialog();
     
 }
 
