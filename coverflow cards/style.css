@@ -1,0 +1,51 @@
+body {
+  background: #ececec;
+  font-family: 'Roboto', sans-serif;
+  font-size: 14px;
+  color:#000;
+  margin: 0;
+  padding: 0;
+}
+.swiper-container {
+  width: 100%;
+  height: 100%;
+}
+.swiper-slide
+{
+  width: 90%;
+  height: 400px;
+  background: linear-gradient(90deg, #3F2B96 0%, #A8C0FF 100%);
+  box-shadow: 0px 2px 2px #0000006e;
+  overflow: auto;
+  align-self: center;
+  position: relative;
+  color: white;
+  font-weight: bold;
+  text-transform: capitalize;
+  line-height: 2;
+  font-size: 24px;
+  overflow-y:auto;
+}
+
+.year
+{
+  position: absolute;
+  bottom: 0px;
+  background: white;
+  height: 50px;
+  width: 100%;
+  font-size: 20px;
+  font-weight: bolder;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #222;
+  box-shadow: 0px 0px 0px grey;
+}
+
+
+.pageno
+{
+  font-size: 14px;
+    color: #929292;
+}
