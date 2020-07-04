@@ -1,0 +1,57 @@
+<html>
+
+<head>
+    <!-- title used for file naming -->
+    <title id="title"></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="css/notebook.css">
+    
+    <script src="scripts/spectrum.js"></script>
+    <script src="scripts/polity.js"></script>
+    <script src="scripts/class_12_history.js"></script>
+    <script src="scripts/class_6_history.js"></script>
+    
+</head>
+
+<body>
+
+    <!-- display area -->
+    <div id='injectHtml'>
+        <input id="chapter" placeholder="Chapter" />
+        <input class="subtitle" placeholder="Chapter Name"></>
+        <div class="editor" contenteditable="true">
+            <div>Type Here</div>
+        </div>
+    </div>
+
+
+    <!-- extra tools -->
+    <ul class="suggestions"></ul>
+    
+    <div class="load-chapter-parent" style="display: none;">
+        <div class="load-chapter">
+            <div style="
+            display: flex;
+            justify-content: space-between;
+        ">
+                <div class="close-button" onclick="closeChapterDialog()">X</div>
+            </div>
+        <div id="chapters-list">
+            <div id="tabs">
+            </div>
+            
+            <div id="tab-content">
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="side-button" onclick="openChapterDialog()">Open Chapters</div>
+
+
+    
+    <script id='editor-script' src="myeditor.js"></script>
+        
+    
+</body>
+
+</html>
