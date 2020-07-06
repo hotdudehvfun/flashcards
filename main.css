@@ -12,7 +12,7 @@ body {
   line-height: 1.6;
   overflow-x:hidden;
   background: #ffffff;
-  font-size:150%
+  font-size: 20px;
 }
 
 * {
@@ -76,10 +76,11 @@ body {
 .editor {
   outline: none;
   width: 100%;
-  height: 100%;
   z-index: 99;
   margin-top: 20px;
   left: 0px;
+  background: linear-gradient(white 31px, #00b0d7);
+  background-size: 100% 32px;
 }
 
 ul.suggestions {
@@ -127,10 +128,11 @@ span#dummy {
   min-width: 320px;
   height: 70%;
   min-height: 450px;
-  background: #383838;
+  background: #dfe6ec;
   z-index: 99;
-  top: 10%;
+  top: 20%;
   margin: auto;
+  border-radius: 10px;
 }
 
 .load-chapter-parent {
@@ -138,7 +140,7 @@ span#dummy {
   width: 100%;
   height: 100%;
   position: fixed;
-  background: #82828226;
+  background: #ffffffb8;
   left: 0px;
   top: 0px;
   display: block;
@@ -147,47 +149,47 @@ span#dummy {
 
 #chapters-list {
   overflow: auto;
-  padding: 0px 10px;
   display: flex;
-  flex-direction: column;
+  flex-direction: row;
+  padding: 5px;
 }
 
 #chapters-list>#tabs{
   display:flex;
-  flex-direction: row;
+  flex-direction: column;
   justify-content: space-between;
-  font-size: 110%;
-  background: transparent;
 }
 
 #chapters-list>#tabs>article.active{
-  border-bottom: 2px solid;
+  background: white;
+  color: #E91E63;
 }
 
 #chapters-list>#tabs>article
 {
     cursor: pointer;
-    padding: 5px 1px;
-    color: #009688;
+    padding: 5px 15px;
+    color: #333;
 }
 
 #chapters-list>#tab-content>div {
-    background: #171717;
-    font-size: 16px;
+    background: #ffffff;
+    font-size: 20px;
     border-radius: 2px;
     padding: 5px 10px;
-    margin: 2px 0px;
+    margin: 0px 0px 15px 20px;
     cursor: pointer;
     text-overflow: ellipsis;
     /*! white-space: nowrap; */
-    color: #fc3159;
+    color: #333;
     align-self: baseline;
 }
 
 div#tab-content {
   display: flex;
   flex-direction: column;
-  margin-top: 10px;
+  overflow: auto;
+  width: 100%;
 }
 
 
@@ -239,12 +241,12 @@ b
 
 .side-button {
     position: absolute;
-    color: white;
-    right: -17px;
+    color: #333;
+    right: 0px;
     top: 10px;
-    background: #303030;
+    background: aliceblue;
     border-radius: 100px;
-    padding: 5px 20px;
+    padding: 10px;
     cursor: pointer;
     user-select: none;
     z-index: 999;
@@ -260,17 +262,7 @@ img
   width:100%;
   max-width:600px;
 }
-
-.editor>div {
-    border-bottom: 1px solid #00b0d7;
-    padding-left: 0px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-}
-
-li
-{
-    border-bottom: 1px solid #00b0d7;
-    padding-top: 2px;
-    padding-bottom: 2px;
+ol {
+  margin: 0px;
+  /* padding: 15px 0px 15px 0px; */
 }

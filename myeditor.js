@@ -1,11 +1,15 @@
 let fontSize=100;
+let showHint = false;
+let hintBox = document.querySelector('.suggestions');
+let selectedNode = 0;
+let currentWord = "null";
 window.onload=function()
 {
     handleAutoSave();
     try 
     {
         let args=this.getUrlVars();
-        console.log(args);
+        //console.log(args);
         if(args.listIndex!=undefined && args.chapterIndex!=undefined)
         {
             document.querySelector("#injectHtml").innerHTML = listIndeces[args.listIndex][args.chapterIndex].content;
@@ -36,19 +40,39 @@ function cleanEditor()
     document.querySelectorAll("ol").forEach(item=>{
         item.removeAttribute("style");
     })
-    
     closeChapterDialog();
-    
 }
 
 
-function insertTab() {
+function insertTab(arg)
+{
     if (!window.getSelection) return;
     const sel = window.getSelection();
     if (!sel.rangeCount) return;
     const range = sel.getRangeAt(0);
     range.collapse(true);
+    
+    // var value=parseInt(range.startContainer.style.paddingLeft)
+    // console.log(range.startContainer,value,value==NaN)
 
+    // if(arg=="up")
+    // {
+    //    if(value==NaN||(range.startContainer.style.paddingLeft+"").length==0)
+    //    {
+    //        value=30
+    //    }else
+    //    {
+    //        value+=30
+    //    }   
+    // }
+    // else
+    // {
+    //     if(value==NaN || (range.startContainer.style.paddingLeft+"").length==0)
+    //         value=0
+    //     else
+    //         value-=30
+    // }
+    // range.startContainer.style.paddingLeft=value+"px";
     const span = document.createElement('span');
     span.appendChild(document.createTextNode('\t'));
     span.style.whiteSpace = 'pre';
@@ -62,10 +86,7 @@ function insertTab() {
     sel.addRange(range);
 }
 
-let showHint = false;
-let hintBox = document.querySelector('.suggestions');
-let selectedNode = 0;
-let currentWord = "null";
+
 
 
 document.addEventListener("keyup",function(){
@@ -87,9 +108,7 @@ document.addEventListener("keyup",function(){
 
 document.addEventListener('keydown', function ()
 {
-   
-
-    
+       
     if (event.ctrlKey && event.keyCode == 79) {
         console.log("open dialog");
         event.preventDefault();
@@ -105,13 +124,20 @@ document.addEventListener('keydown', function ()
     if (event.ctrlKey && event.keyCode == 76) {
         console.log("list");
         event.preventDefault();
-        insertHtmlAtCursor("<ol><li></li></ol>");
+        insertHtmlAtCursor("<ol><li>.</li></ol>");
     }
 
-    if (event.keyCode == 9) {
-        insertTab();
+    if (event.keyCode == 9)
+    {
+        insertTab("up");
         event.preventDefault();
     }
+    if (event.shiftKey && event.keyCode == 9)
+    {
+        insertTab("down");
+        event.preventDefault();
+    }
+    
 
     if (event.ctrlKey && event.keyCode == 69) {
         console.log("align");
@@ -150,11 +176,11 @@ document.addEventListener('keydown', function ()
         copyToClipboard(output);
     }
 
-
-
-if (showHint) {
-        if (event.keyCode == 38 || event.keyCode == 40 || event.keyCode == 13) {
-            event.preventDefault();
+    if (showHint)
+    {
+        if (event.keyCode == 38 || event.keyCode == 40 || event.keyCode==13)
+        {
+                event.preventDefault();
         }
     }
 
@@ -181,9 +207,8 @@ function saveChapter(args)
     if(args==undefined)
         copyToClipboard(output);
     
-
-        cleanEditor();
-    }
+    //cleanEditor();
+}
 
 
 
@@ -204,16 +229,20 @@ let listIndeces=
     class_6_history,
     Class_12_History,
     chapterContent_Polity,
+    class_11_old_history
 ];
 
 function prepareChapterDialog()
 {
+    //also in listIndeces name of array
     //text, list index
     prepareIndex("Spectrum Chapters",0);
     prepareIndex("Class 6 History",1);
     prepareIndex("Class 12 History",2);
     prepareIndex("Polity",3);
-
+    prepareIndex("Class 11 History Old",4);
+    
+    //default load
     loadChatersOfSubject("Spectrum Chapters",0);
 }
 
@@ -222,7 +251,7 @@ function prepareIndex(heading,listIndex)
 {
   
     let tabs=document.querySelector("#tabs");
-    console.log(tabs)
+    //console.log(tabs)
     let article =document.createElement("article");
     article.innerHTML= `${heading}`;
     article.setAttribute("data-isChildInView","true")
@@ -299,10 +328,13 @@ function showHintBox() {
     selectedNode = -1;
 }
 
-function handleHint(event) {
+function handleHint(event)
+{
     // select and insert hints
-    if (showHint) {
-        if (event.keyCode == 38) {
+    if (showHint)
+    {
+        if (event.keyCode == 38)
+        {
             //up
             event.preventDefault();
             if (document.querySelector('.selectedHint') != null) {
@@ -314,71 +346,77 @@ function handleHint(event) {
             }
             // console.log(selectedNode);
             hintBox.childNodes[selectedNode].className = 'selectedHint';
-        } else
-            if (event.keyCode == 40) {
-                //down
+        } else if (event.keyCode == 40) {
+            //down
+            event.preventDefault();
+            if (document.querySelector('.selectedHint') != null) {
+                document.querySelector('.selectedHint').className = '';
+            }
+            selectedNode++;
+            if (selectedNode >= hintBox.childNodes.length) {
+                selectedNode = 0;
+            }
+            // console.log(selectedNode);
+            hintBox.childNodes[selectedNode].className = 'selectedHint';
+        } else if (event.keyCode == 13)
+        {
+            //enter is pressed
+            if (document.querySelector('.selectedHint') !=null)
+            {
                 event.preventDefault();
-                if (document.querySelector('.selectedHint') != null) {
-                    document.querySelector('.selectedHint').className = '';
-                }
-                selectedNode++;
-                if (selectedNode >= hintBox.childNodes.length) {
-                    selectedNode = 0;
-                }
-                // console.log(selectedNode);
-                hintBox.childNodes[selectedNode].className = 'selectedHint';
+                //use this word
+                let wordToInsert = document.querySelector('.selectedHint').innerText.trim();
+                insertHint(wordToInsert, currentWord);
+                console.log("enter press inserting word");                
+            }
+        
+            showHint = false;
+            hintBox.style.display = "none";
+        }
+        else {
+            //other than up down and enter key is pressed
+            currentWord = getCurrentWord();
+            if (currentWord.length > 0)
+            {
+                loadHintsInHintBox();
             } else
-                if (event.keyCode == 13) {
-                    if (document.querySelector('.selectedHint') == null) {
-                        //enter press when hint is on and now hint selected
-
-                        showHint = false;
-                        hintBox.style.display = "none";
-                    } else {
-                        event.preventDefault();
-
-                        //use this word
-                        let wordToInsert = document.querySelector('.selectedHint').innerText.trim();
-                        insertHint(wordToInsert, currentWord);
-                        showHint = false;
-                        hintBox.style.display = "none";
-                    }
-                }
-                else {
-                    //words
-                    currentWord = getCurrentWord();
-                    if (currentWord.length > 0)
-                    {
-                        loadHintsInHintBox();
-
-                    } else {
-                        hintBox.style.display = "none";
-                    }
-                }
+            {
+                hintBox.style.display = "none";
+            }
+        }
     }
 }
 
 
 function loadHintsInHintBox()
 {
-let words=document.querySelector('.editor').innerText.split(/\n| /);
-let u=[...new Set(words)];
-let html = '';
-words=u;
-words.forEach(item=>
-{
-    if(item.toLocaleLowerCase().indexOf(currentWord.toLocaleLowerCase())!=-1)
+    let words=document.querySelector('.editor').innerText.split(/\n| /);
+    let u=[...new Set(words)];
+    let html = '';
+    words=u;
+    //remove current word from list
+    let removePos=words.indexOf(currentWord)
+    if(removePos!=-1)
+        words.splice(removePos,1);
+    
+    //filter words
+    words.forEach(item=>
     {
-        html += `<li>${item}</li>`;
-    }
-});
+        if(item.toLocaleLowerCase().indexOf(currentWord.toLocaleLowerCase())!=-1)
+        {
+            html += `<li>${item}</li>`;
+        }
+    });
 
 
-if (html.length > 0) {
+    if (html.length > 0)
+    {
         hintBox.innerHTML = html;
         hintBox.style.display = "flex";
         positionHintBox();
-    } else {
+    }
+    else
+    {
         hintBox.style.display = "none";
     }
 }
@@ -420,10 +458,10 @@ function changeFileName() {
     document.querySelector("#title").innerHTML = document.querySelector("#chapter").value + " " + document.querySelector(".subtitle").value
 }
 
-
 function isAlphanumeric(char) {
     return "0123456789abcdefghijklmnopqrstuvwxyz@#$%^&*()_-+{}[]".indexOf(char) > -1;
 }
+
 function getCurrentWord() {
 
     let currentWord = "";
