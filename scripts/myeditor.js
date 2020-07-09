@@ -46,33 +46,13 @@ function cleanEditor()
 
 function insertTab(arg)
 {
+
     if (!window.getSelection) return;
     const sel = window.getSelection();
     if (!sel.rangeCount) return;
     const range = sel.getRangeAt(0);
     range.collapse(true);
     
-    // var value=parseInt(range.startContainer.style.paddingLeft)
-    // console.log(range.startContainer,value,value==NaN)
-
-    // if(arg=="up")
-    // {
-    //    if(value==NaN||(range.startContainer.style.paddingLeft+"").length==0)
-    //    {
-    //        value=30
-    //    }else
-    //    {
-    //        value+=30
-    //    }   
-    // }
-    // else
-    // {
-    //     if(value==NaN || (range.startContainer.style.paddingLeft+"").length==0)
-    //         value=0
-    //     else
-    //         value-=30
-    // }
-    // range.startContainer.style.paddingLeft=value+"px";
     const span = document.createElement('span');
     span.appendChild(document.createTextNode('\t'));
     span.style.whiteSpace = 'pre';
@@ -103,6 +83,11 @@ document.addEventListener("keyup",function(){
         showHintBox();
     }
     handleHint(event);
+    
+    if(!showHint)
+    { 
+        getTree()
+    }
 })
 
 
@@ -129,8 +114,13 @@ document.addEventListener('keydown', function ()
 
     if (event.keyCode == 9)
     {
-        insertTab("up");
-        event.preventDefault();
+        //only add tab if inside editor
+        let id=(document.activeElement.id)
+        if(id=="editor")
+        {
+            event.preventDefault();
+            insertTab("up");
+        }
     }
     if (event.shiftKey && event.keyCode == 9)
     {
@@ -183,6 +173,9 @@ document.addEventListener('keydown', function ()
                 event.preventDefault();
         }
     }
+
+   
+
 
 })
 
@@ -367,7 +360,7 @@ function handleHint(event)
                 //use this word
                 let wordToInsert = document.querySelector('.selectedHint').innerText.trim();
                 insertHint(wordToInsert, currentWord);
-                console.log("enter press inserting word");                
+                //console.log("enter press inserting word");                
             }
         
             showHint = false;
@@ -531,20 +524,42 @@ function insertHtmlAtCursor(html) {
     }
 }
 
-function insertHint(newWord, oldWord) {
+function insertHint(newWord, oldWord)
+{
     let range = window.getSelection().getRangeAt(0);
     console.log(range);
-    let parent = range.endContainer.parentElement;
-    let wholeText = range.endContainer.wholeText.toString();
+    
+    let text=range.endContainer;
+    let offset=range.endOffset;
+    console.log(text,offset)
+    
+    // this is text to insert hint
+    //0-pos- + newword + pos-end
+    
+    //a=0-offset-oldword len
+    //b=new word
+    //c= offset - end
 
-    //hello he|llo world
-    wholeText = wholeText.replace(oldWord, newWord);
-    //let insert=wholeText.substring(0, range.endOffset - word.length) + "" + html+" "+wholeText.substring(range.endOffset+word.length,wholeText.length);
+    //line=a + b + c
+    let str=text.wholeText
+    let a=str.substring(0, offset-oldWord.length) 
+    let b=newWord
+    let c=str.substring(offset)
+    console.log(a,b,c)
+    str=a+b+c;
+    range.endContainer.nodeValue=str;
 
-    parent.innerText = wholeText;
+    // let parent = range.endContainer.parentElement;
+    // let wholeText = range.endContainer.wholeText.toString();
+
+    // //hello he|llo world
+    // wholeText = wholeText.replace(oldWord, newWord);
+    // //let insert=wholeText.substring(0, range.endOffset - word.length) + "" + html+" "+wholeText.substring(range.endOffset+word.length,wholeText.length);
+
+    // parent.innerText = wholeText;
 
     //set cursor
-    range.setStart(parent.childNodes[0], parent.innerText.length);
+    range.setStart(range.endContainer.parentElement.childNodes[0], (a+b).length);
     range.collapse(true);
 }
 
@@ -555,4 +570,33 @@ function getUrlVars() {
         vars[key] = value;
     });
     return vars;
+}
+
+function handleNewChapter()
+{
+    window.location="../index.html";
+}
+
+var readMode=false;
+function handleReadMode()
+{
+    readMode=!readMode;
+    document.querySelector(".editor").setAttribute("contenteditable",readMode);
+    document.querySelector("#read_mode").innerHTML="Read Mode:"+readMode;
+}
+
+
+function getTree()
+{
+    let range = window.getSelection().getRangeAt(0);
+    let tree=document.querySelector("#tree");
+    let p=range.endContainer;
+    tree.innerHTML=""
+    while(p.parentElement.className!="editor")
+    {
+        tree.innerHTML+=p.parentElement.tagName+">";
+        p=p.parentElement;
+    }
+    tree.innerHTML+="editor";
+    
 }

@@ -4,26 +4,37 @@
     <!-- title used for file naming -->
     <title id="title"></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="main.css">
+    <link rel="stylesheet" href="css/main.css">
     <script src="scripts/spectrum.js"></script>
     <script src="scripts/polity.js"></script>
     <script src="scripts/class_12_history.js"></script>
     <script src="scripts/class_6_history.js"></script>
-    <script src="scripts/class_11_old_history.js"></script>
-    
-    
+    <script src="scripts/class_11_old_history.js"></script>    
 </head>
 
 <body>
 
-    <!-- display area -->
-    <div id='injectHtml'>
-        <input id="chapter" placeholder="Chapter" />
-        <input class="subtitle" placeholder="Chapter Name"></>
-        <div class="editor" contenteditable="true">
-            <div>Type Here</div>
+    <div class="container">
+        <div class="tools">
+            <div class="side-button" onclick="handleNewChapter()">New Document</div>
+            <div class="side-button" onclick="openChapterDialog()">Open Document</div>
+            <div id="read_mode" class="side-button" onclick="handleReadMode()">Reading:false</div>
+        </div>
+
+        <div id='injectHtml'>
+            <input id="chapter" placeholder="Chapter" />
+            <input id="subtitle" class="subtitle" placeholder="Chapter Name"/ >
+            <div id="editor" class="editor" contenteditable="true">
+                <div>Type Here</div>
+            </div>
+        </div>
+        <div class="info-bar">
+            <div id="tree">parent>child</div>
+            <div>wc:</div>
+            
         </div>
     </div>
+      
 
 
     <!-- extra tools -->
@@ -46,11 +57,12 @@
         </div>
     </div>
     </div>
-    <div class="side-button" onclick="openChapterDialog()">Open Chapters</div>
+
+    
 
 
     
-    <script id='editor-script' src="myeditor.js"></script>
+    <script id='editor-script' src="/scripts/myeditor.js"></script>
         
     
 </body>
