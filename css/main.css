@@ -10,7 +10,7 @@ body {
   height: 100%;
   width: 100%;
   line-height: 1.6;
-  overflow-x:hidden;
+  overflow: hidden;
   background: #ffffff;
   font-size: 20px;
 }
@@ -29,6 +29,7 @@ body {
   font-weight: bold;
   font-size: 24px;
 }
+
 
 #chapter:focus {
   outline: none;
@@ -80,9 +81,6 @@ body {
   background: linear-gradient(white 31px, #00b0d7);
   background-size: 100% 32px;
   caret-color: red;
- caret-color: #ff0000;
- caret-color: rgb(255, 0, 0);
- caret-color: hsl(0, 97%, 50%);
 }
 
 ul.suggestions {
@@ -136,7 +134,7 @@ span#dummy {
   z-index: 99;
   top: 20%;
   margin: auto;
-  border-radius: 10px;
+  border-radius: 2px;
 }
 
 .load-chapter-parent {
@@ -156,12 +154,15 @@ span#dummy {
   display: flex;
   flex-direction: row;
   padding: 5px;
+  height: 100%;
 }
 
 #chapters-list>#tabs{
   display:flex;
   flex-direction: column;
   justify-content: space-between;
+  height: 100%;
+  overflow: auto;
 }
 
 #chapters-list>#tabs>article.active{
@@ -174,19 +175,20 @@ span#dummy {
     cursor: pointer;
     padding: 5px 15px;
     color: #333;
+    transition: 0.5s all;
 }
 
 #chapters-list>#tab-content>div {
-    background: #ffffff;
     font-size: 20px;
     border-radius: 2px;
-    padding: 5px 10px;
-    margin: 0px 0px 15px 20px;
+    padding: 0px 0px;
+    margin: 0px 0px 5px 20px;
     cursor: pointer;
     text-overflow: ellipsis;
     /*! white-space: nowrap; */
     color: #333;
-    align-self: baseline;
+    border-bottom: 1px solid gray;
+    text-align: left;
 }
 
 div#tab-content {
@@ -204,34 +206,35 @@ div#tab-content {
   display: inline;
   border-radius: 140px;
   align-self: center;
- background: aliceblue;
-  padding: 6px 11px;
+  background: #E91E63;
+  padding: 5px 15px;
   font-weight: bold;
   position: absolute;
-  color: crimson;
+  color: white;
   right: -15px;
   top: -17px;
   cursor: pointer;
-
 }
 
 b
 {
   color: #232323;
   text-transform:uppercase;
-  background:aliceblue
+  background:aliceblue;
+  padding:0px 4px;
 }
 
 .side-button {
     color: #333;
     background: aliceblue;
-    border-radius: 100px;
-    padding: 6px;
+    padding: 0px 5px;
     cursor: pointer;
     user-select: none;
     z-index: 999;
     align-self: flex-end;
     font-size: 16px;
+    margin: 0px 2px;
+    display: flex;
 }
 
 .side-button:active
@@ -242,7 +245,7 @@ b
 img
 {
   width:100%;
-  max-width:600px;
+  max-width: 400px;
 }
 ol {
   margin: 0px;
@@ -264,4 +267,42 @@ div#injectHtml {
     flex-direction: row;
     justify-content: space-between;
     font-size: 16px;
+}
+
+.dark_theme
+{
+  background: #111;
+}
+
+.dark_theme input
+{
+  color:white;
+}
+.dark_theme .editor
+{
+  color:white;
+  background: linear-gradient(#111 31px, #ffffff26);
+  background-size: 100% 32px;
+}
+
+.dark_theme .side-button
+{
+  background:#2c2c2c;
+  color:white
+}
+
+.dark_theme b
+{
+  background:#54545459;
+  color:white
+}
+
+.dark_theme .info-bar
+{
+  background:#222;
+  color:#00BCD4;
+}
+
+.highlight_row {
+  background: #e5e5e5ab;
 }

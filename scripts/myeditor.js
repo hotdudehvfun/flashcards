@@ -20,7 +20,7 @@ window.onload=function()
     }
     prepareChapterDialog();
     cleanEditor();
-    
+    update_word_count()
 }
 
 function cleanEditor()
@@ -67,27 +67,28 @@ function insertTab(arg)
 }
 
 
-
+document.addEventListener("keypress",function()
+{
+    
+});
 
 document.addEventListener("keyup",function(){
-    //console.log(event.keyCode);
+    console.log(event.keyCode);
     changeFileName();
+    //escape key 
     if (event.keyCode == 27)
     {
         resetHintBox();
     }
-    if (event.keyCode == 32) {
-        showHintBox();
+
+    //ctrl + space
+    if ( (event.ctrlKey && event.keyCode == 32) || (event.keyCode>=65 && event.keyCode<=90) || (event.keyCode>=48 && event.keyCode<=57))
+    {
+        loadHintsInHintBox()
     }
-    if (event.ctrlKey && event.keyCode == 32) {
-        showHintBox();
-    }
-    handleHint(event);
-    
-    if(!showHint)
-    { 
-        getTree()
-    }
+
+    update_info_bar(event)
+    highlight_current_row(event)
 })
 
 
@@ -109,7 +110,7 @@ document.addEventListener('keydown', function ()
     if (event.ctrlKey && event.keyCode == 76) {
         console.log("list");
         event.preventDefault();
-        insertHtmlAtCursor("<ol><li>.</li></ol>");
+        insertHtmlAtCursor("<ol><li></li></ol>");
     }
 
     if (event.keyCode == 9)
@@ -166,15 +167,17 @@ document.addEventListener('keydown', function ()
         copyToClipboard(output);
     }
 
-    if (showHint)
+
+    if (hintBox.innerHTML.length>0)
     {
         if (event.keyCode == 38 || event.keyCode == 40 || event.keyCode==13)
         {
                 event.preventDefault();
         }
     }
+    handleHint(event); 
 
-   
+    
 
 
 })
@@ -255,6 +258,7 @@ function prepareIndex(heading,listIndex)
     tabs.appendChild(article);
 }
 
+
 function loadChatersOfSubject(heading,listIndex)
 {
     document.querySelector('#tab-content').innerHTML="";
@@ -271,19 +275,22 @@ function loadChatersOfSubject(heading,listIndex)
         document.querySelector('#tab-content').appendChild(child);
     });
 
-    try{
-
-        document.querySelector(".active").setAttribute("class","");
-    }catch(e){}
+    //update active
+    if(document.querySelector(".active")!=null)
+        document.querySelector(".active").className=""; 
+        
+    document.querySelector("#tabs").children[listIndex].setAttribute("class","active");
     
-    document.querySelectorAll("article")[listIndex].setAttribute("class","active");
 
 }
+
 
 function closeChapterDialog()
 {
     document.querySelector('.load-chapter-parent').style.display = "none";
 }
+
+
 function openChapterDialog()
 {
     document.querySelector('.load-chapter-parent').style.display = "block";
@@ -311,37 +318,44 @@ function copyToClipboard(text) {
 function resetHintBox() {
     showHint = false;
     hintBox.style.display = "none";
+    hintBox.innerHTML=""
     selectedNode = -1;
 }
-function showHintBox() {
+function showHintBox()
+{
     showHint = true;
     hintBox.style.display = "flex";
-    // console.log('hint on')
+    console.log('hint on')
     positionHintBox();
     selectedNode = -1;
+    
 }
 
 function handleHint(event)
 {
-    // select and insert hints
-    if (showHint)
+    // allow selection of hints if there are hints
+    if (hintBox.childNodes.length>0)
     {
         if (event.keyCode == 38)
         {
             //up
-            event.preventDefault();
-            if (document.querySelector('.selectedHint') != null) {
+            //remove previous selected hint if any
+            if (document.querySelector('.selectedHint') != null)
+            {
                 document.querySelector('.selectedHint').className = '';
             }
             selectedNode--;
-            if (selectedNode < 0) {
+            if (selectedNode < 0)
+            {
                 selectedNode = hintBox.childNodes.length - 1;
             }
             // console.log(selectedNode);
             hintBox.childNodes[selectedNode].className = 'selectedHint';
-        } else if (event.keyCode == 40) {
+        }
+        
+        if (event.keyCode == 40)
+        {
             //down
-            event.preventDefault();
             if (document.querySelector('.selectedHint') != null) {
                 document.querySelector('.selectedHint').className = '';
             }
@@ -351,31 +365,21 @@ function handleHint(event)
             }
             // console.log(selectedNode);
             hintBox.childNodes[selectedNode].className = 'selectedHint';
-        } else if (event.keyCode == 13)
+        }
+
+        if (event.keyCode == 13)
         {
             //enter is pressed
-            if (document.querySelector('.selectedHint') !=null)
+            if (document.querySelector('.selectedHint') !=null && selectedNode!=-1)
             {
-                event.preventDefault();
                 //use this word
                 let wordToInsert = document.querySelector('.selectedHint').innerText.trim();
-                insertHint(wordToInsert, currentWord);
-                //console.log("enter press inserting word");                
-            }
-        
-            showHint = false;
+                insertHint(wordToInsert, getCurrentWord());
+                console.log("inserting word",wordToInsert);                
+            }        
             hintBox.style.display = "none";
-        }
-        else {
-            //other than up down and enter key is pressed
-            currentWord = getCurrentWord();
-            if (currentWord.length > 0)
-            {
-                loadHintsInHintBox();
-            } else
-            {
-                hintBox.style.display = "none";
-            }
+            hintBox.innerHTML="";
+            selectedNode=-1;
         }
     }
 }
@@ -383,34 +387,52 @@ function handleHint(event)
 
 function loadHintsInHintBox()
 {
-    let words=document.querySelector('.editor').innerText.split(/\n| /);
-    let u=[...new Set(words)];
-    let html = '';
-    words=u;
-    //remove current word from list
-    let removePos=words.indexOf(currentWord)
-    if(removePos!=-1)
-        words.splice(removePos,1);
-    
-    //filter words
-    words.forEach(item=>
+    let currentWord=getCurrentWord().trim();
+    if(currentWord.length>0)
     {
-        if(item.toLocaleLowerCase().indexOf(currentWord.toLocaleLowerCase())!=-1)
+
+        let words=document.querySelector('.editor').innerText.split(/\n| /);
+        let u=[...new Set(words)];
+        words=u;
+        //remove current word from list
+        //console.log(currentWord)
+        let removePos=words.indexOf(currentWord)
+        if(removePos!=-1)
+            words.splice(removePos,1);
+        
+        //filter words
+        let hint_array=[]
+        words.forEach(item=>
         {
-            html += `<li>${item}</li>`;
+            let index_of=item.toLocaleLowerCase().indexOf(currentWord.toLocaleLowerCase());
+            if(index_of!=-1)
+            {
+                hint_array.push({rank:index_of,text:item})
+            }
+        });
+    
+        hint_array.sort(function(a,b){return (a.rank-b.rank)})
+        console.log(hint_array)
+        let html = '';
+        hint_array.forEach(item=>
+        {
+            html+=`<li>${item.text}</li>`;
+        })
+        //if there are hints to show
+        if (html.length > 0)
+        {
+            hintBox.innerHTML = html;
+            hintBox.style.display = "flex";
+            //be default select first child
+            selectedNode=0;
+            hintBox.childNodes[selectedNode].className = 'selectedHint';
+            positionHintBox();
+            //console.log(html)
+        }else
+        {
+            hintBox.style.display = "none";
+            hintBox.innerHTML="";
         }
-    });
-
-
-    if (html.length > 0)
-    {
-        hintBox.innerHTML = html;
-        hintBox.style.display = "flex";
-        positionHintBox();
-    }
-    else
-    {
-        hintBox.style.display = "none";
     }
 }
 
@@ -520,6 +542,7 @@ function insertHtmlAtCursor(html) {
             range = window.getSelection().getRangeAt(0);
             node = range.createContextualFragment(html);
             range.insertNode(node);
+            range.collapse(true);
         }
     }
 }
@@ -577,26 +600,72 @@ function handleNewChapter()
     window.location="../index.html";
 }
 
-var readMode=false;
+var readMode=true;
 function handleReadMode()
 {
     readMode=!readMode;
     document.querySelector(".editor").setAttribute("contenteditable",readMode);
-    document.querySelector("#read_mode").innerHTML="Read Mode:"+readMode;
+    document.querySelector("#read_mode").innerHTML="Editable:"+readMode;
+}
+
+var dark_theme=false;
+function toggleTheme()
+{
+    dark_theme=!dark_theme;
+    document.querySelector("body").classList.toggle("dark_theme");
+    document.querySelector("#toggle_theme").innerHTML="Dark:"+dark_theme;
 }
 
 
-function getTree()
+
+function update_info_bar(event)
 {
-    let range = window.getSelection().getRangeAt(0);
-    let tree=document.querySelector("#tree");
-    let p=range.endContainer;
-    tree.innerHTML=""
-    while(p.parentElement.className!="editor")
+    if(event.target.id=="editor")
     {
-        tree.innerHTML+=p.parentElement.tagName+">";
-        p=p.parentElement;
+
+        let range = window.getSelection().getRangeAt(0);
+        let tree=document.querySelector("#tree");
+        let p=range.endContainer;
+        tree.innerHTML=""
+        while(p.parentElement.className!="editor")
+        {
+            tree.innerHTML+=p.parentElement.tagName+">";
+            p=p.parentElement;
+        }
+        tree.innerHTML+="editor";
+        
+        update_word_count();
     }
-    tree.innerHTML+="editor";
+}
+
+function update_word_count()
+{
+    //word count
+    document.querySelector("#word_count").innerHTML="wc: "+document.querySelector("#editor").innerText.trim().split(/\n| /).length
+}
+
+function highlight_current_row(event)
+{
+    if(event.target.id=="editor" && hintBox.innerHTML=="")
+    {
+
+        let range = window.getSelection().getRangeAt(0);
+        //console.log(range)
+        let p=range.endContainer;
+        if(document.querySelector(".highlight_row")!=null)
+           document.querySelector(".highlight_row").className=""
     
+        
+        if(p.id!="editor")
+        {
+            if (p.nodeType==3)
+            {
+                p.parentElement.className="highlight_row"
+            }else
+            {
+                p.className="highlight_row"
+            }
+        }
+        //console.log(p)
+    }
 }

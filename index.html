@@ -9,28 +9,40 @@
     <script src="scripts/polity.js"></script>
     <script src="scripts/class_12_history.js"></script>
     <script src="scripts/class_6_history.js"></script>
-    <script src="scripts/class_11_old_history.js"></script>    
+    <script src="scripts/class_11_old_history.js"></script>  
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 
 <body>
-
     <div class="container">
         <div class="tools">
-            <div class="side-button" onclick="handleNewChapter()">New Document</div>
-            <div class="side-button" onclick="openChapterDialog()">Open Document</div>
-            <div id="read_mode" class="side-button" onclick="handleReadMode()">Reading:false</div>
+            <div class="side-button" onclick="handleNewChapter()"><span class="material-icons">
+                edit
+            </span>
+            New Document</div>
+            <div class="side-button" onclick="openChapterDialog()">
+                <span class="material-icons">
+                    folder_open
+                </span>
+                Open Document</div>
+            <div id="read_mode" class="side-button" onclick="handleReadMode()">Editable:true</div>
+            <div id="toggle_theme" class="side-button" onclick="toggleTheme()">
+            <span class="material-icons">
+                nights_stay
+                </span>
+            Dark:false</div>
+            
         </div>
-
         <div id='injectHtml'>
             <input id="chapter" placeholder="Chapter" />
             <input id="subtitle" class="subtitle" placeholder="Chapter Name"/ >
             <div id="editor" class="editor" contenteditable="true">
-                <div>Type Here</div>
+                <article>Type Here</article>
             </div>
         </div>
         <div class="info-bar">
             <div id="tree">parent>child</div>
-            <div>wc:</div>
+            <div id="word_count">wc:</div>
             
         </div>
     </div>
