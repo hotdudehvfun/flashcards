@@ -641,7 +641,7 @@ function update_info_bar(event)
 function update_word_count()
 {
     //word count
-    document.querySelector("#word_count").innerHTML="wc: "+document.querySelector("#editor").innerText.trim().split(/\n| /).length
+    document.querySelector("#word_count").innerHTML="wc: "+document.querySelector(".editor").innerText.trim().split(/\n| /).length
 }
 
 function highlight_current_row(event)
