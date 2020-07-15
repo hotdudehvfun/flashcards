@@ -88,7 +88,7 @@ document.addEventListener("keyup",function(){
     }
 
     update_info_bar(event)
-    highlight_current_row(event)
+    //highlight_current_row(event)
 })
 
 

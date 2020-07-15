@@ -3,6 +3,10 @@
   font-family: MyFont;
   src: url(../fonts/hand.ttf);
 }
+::selection
+{
+  background: #ff7c73;
+}
 
 body {
   margin: 0;
@@ -305,4 +309,14 @@ div#injectHtml {
 
 .highlight_row {
   background: #e5e5e5ab;
+}
+
+
+.custom-list {
+  list-style-type: none;
+}
+
+.custom-list li:before
+{
+  content:"📜";
 }

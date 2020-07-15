@@ -27,10 +27,11 @@
                 Open Document</div>
             <div id="read_mode" class="side-button" onclick="handleReadMode()">Editable:true</div>
             <div id="toggle_theme" class="side-button" onclick="toggleTheme()">
-            <span class="material-icons">
-                nights_stay
-                </span>
-            Dark:false</div>
+                <span class="material-icons">nights_stay</span>Dark:false
+            </div>
+            <div id="" class="side-button" onclick="insertHtmlAtCursor('<ol class=custom-list><li></li></ol>')">📜List
+            </div>
+            
             
         </div>
         <div id='injectHtml'>
@@ -75,6 +76,7 @@
 
     
     <script id='editor-script' src="/scripts/myeditor.js"></script>
+
         
     
 </body>
