@@ -225,7 +225,8 @@ let listIndeces=
     class_6_history,
     Class_12_History,
     chapterContent_Polity,
-    class_11_old_history
+    class_11_old_history,
+    essay_writing
 ];
 
 function prepareChapterDialog()
@@ -237,6 +238,8 @@ function prepareChapterDialog()
     prepareIndex("Class 12 History",2);
     prepareIndex("Polity",3);
     prepareIndex("Class 11 History Old",4);
+    prepareIndex("GS Essay",5);
+    
     
     //default load
     loadChatersOfSubject("Spectrum Chapters",0);

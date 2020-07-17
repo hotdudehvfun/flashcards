@@ -30,7 +30,6 @@ body {
   width: 100%;
   background: transparent;
   border: none;
-  font-weight: bold;
   font-size: 24px;
 }
 
@@ -45,7 +44,6 @@ body {
   outline: none;
   border: none;
   background: transparent;
-  /* font-weight: bold; */
   font-size: 16px;
 }
 
@@ -275,7 +273,7 @@ div#injectHtml {
 
 .dark_theme
 {
-  background: #111;
+  background: #282828;
 }
 
 .dark_theme input
@@ -285,7 +283,7 @@ div#injectHtml {
 .dark_theme .editor
 {
   color:white;
-  background: linear-gradient(#111 31px, #ffffff26);
+  background: linear-gradient(#282828 31px, #ffffff26);
   background-size: 100% 32px;
 }
 
