@@ -226,7 +226,8 @@ let listIndeces=
     Class_12_History,
     chapterContent_Polity,
     class_11_old_history,
-    essay_writing
+    essay_writing,
+    class_12_history_themes
 ];
 
 function prepareChapterDialog()
@@ -239,6 +240,8 @@ function prepareChapterDialog()
     prepareIndex("Polity",3);
     prepareIndex("Class 11 History Old",4);
     prepareIndex("GS Essay",5);
+    prepareIndex("Class 12 Themes",6);
+    
     
     
     //default load

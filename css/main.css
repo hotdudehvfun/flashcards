@@ -80,8 +80,8 @@ body {
   z-index: 99;
   margin-top: 20px;
   left: 0px;
-  background: linear-gradient(white 31px, #00b0d7);
-  background-size: 100% 32px;
+  background: linear-gradient(white 30px, #00b0d7);
+  background-size: 126% 31.7px; /*single div=31.7tall*/
   caret-color: red;
 }
 
@@ -317,4 +317,5 @@ div#injectHtml {
 .custom-list li:before
 {
   content:"📜";
+  font-size: 16px;
 }
