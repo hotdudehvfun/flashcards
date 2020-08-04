@@ -163,7 +163,7 @@ document.addEventListener('keydown', function ()
         event.preventDefault();
         let output = `,{ title: "${document.querySelector('#chapter').value} ${document.querySelector('.subtitle').value} ",`;
         output += "content:" + '`' + document.querySelector('#injectHtml').innerHTML.trim() + "`}";
-        console.log(output);
+        //console.log(output);
         copyToClipboard(output);
     }
 
@@ -198,13 +198,39 @@ function saveChapter(args)
     //console.log("saving");
     let output = `{ title: "${document.querySelector('#chapter').value} ${document.querySelector('.subtitle').value} ",`;
     output += "content:" + '`' + document.querySelector('#injectHtml').innerHTML.trim() + "`}";
-    console.log(output);
+    //console.log(output);
     localStorage.chapterData=output;
     if(args==undefined)
         copyToClipboard(output);
     
     //cleanEditor();
+
+    //call ajax here
+    save_data_to_file(output)
 }
+
+function save_data_to_file(output)
+{
+    let args=window.location.href.split("?")
+    if(args.length==2)
+    {
+        args=args[1]
+        args+="&data="+output
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function()
+        {
+            if (this.readyState == 4 && this.status == 200)
+            {
+                console.log("response="+this.responseText)
+            }
+        };
+        xhttp.open("POST", "../flashcards/cgi/save_data.py", true);
+        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        xhttp.send(JSON.stringify(args));
+    }
+      
+}
+
 
 
 
@@ -227,7 +253,8 @@ let listIndeces=
     chapterContent_Polity,
     class_11_old_history,
     essay_writing,
-    class_12_history_themes
+    class_12_history_themes,
+    mocks
 ];
 
 function prepareChapterDialog()
@@ -241,6 +268,8 @@ function prepareChapterDialog()
     prepareIndex("Class 11 History Old",4);
     prepareIndex("GS Essay",5);
     prepareIndex("Class 12 Themes",6);
+    prepareIndex("Mock Tests",7);
+    
     
     
     
@@ -603,7 +632,7 @@ function getUrlVars() {
 
 function handleNewChapter()
 {
-    window.location="../index.html";
+    window.location="../flashcards/index.html";
 }
 
 var readMode=true;
@@ -673,5 +702,17 @@ function highlight_current_row(event)
             }
         }
         //console.log(p)
+    }
+}
+
+function fix_notebook_lines()
+{
+    try
+    {
+        let h=document.querySelector(".editor").firstElementChild.getBoundingClientRect().height
+        document.querySelector(".editor").style.backgroundSize=`100% ${h}px`
+        
+    } catch (error) {
+        
     }
 }

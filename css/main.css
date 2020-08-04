@@ -247,7 +247,7 @@ b
 img
 {
   width:100%;
-  max-width: 400px;
+  max-width: 300px;
 }
 ol {
   margin: 0px;
@@ -314,6 +314,9 @@ div#injectHtml {
   list-style-type: none;
 }
 
+
+
+@charset "UTF-8";
 .custom-list li:before
 {
   content:"📜";

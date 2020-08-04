@@ -1,0 +1,17 @@
+.parent {
+    display: flex;
+    padding: 8px;
+    flex-wrap: wrap;
+}
+
+img {
+    flex: 1 0 26%;
+    width: 1;
+    margin: 8px;
+    box-shadow: 2px 2px 4px #8080804f;
+    border: 2px solid white;
+}
+
+body {
+    background: #ededed;
+}

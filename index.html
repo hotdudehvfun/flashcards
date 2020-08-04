@@ -3,7 +3,8 @@
     <!-- title used for file naming -->
     <title id="title"></title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <link rel="stylesheet" href="css/main.css">
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/main.css" charset="utf-8">
     <script src="scripts/spectrum.js"></script>
     <script src="scripts/polity.js"></script>
     <script src="scripts/class_12_history.js"></script>
@@ -11,16 +12,25 @@
     <script src="scripts/class_11_old_history.js"></script>  
     <script src="scripts/essay_writing.js"></script>
     <script src="scripts/class_12_history_themes.js"></script>
+    <script src="scripts/mocks.js"></script>
+    
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
 <body>
     <div class="container">
         <div class="tools">
-            <div class="side-button" onclick="handleNewChapter()">🆕New</div>
-            <div class="side-button" onclick="openChapterDialog()">📄Open</div>
+            <div class="side-button" onclick="handleNewChapter()">📄New
+            </div>
+            <div class="side-button" onclick="openChapterDialog()">📖Open
+            </div>
             <div id="read_mode" class="side-button" onclick="handleReadMode()">Editable:true</div>
-            <div id="toggle_theme" class="side-button" onclick="toggleTheme()">🌓Dark:false</div>
+            <div id="toggle_theme" class="side-button" onclick="toggleTheme()">
+                🌓Dark:false
+            </div>
             <div id="" class="side-button" onclick="insertHtmlAtCursor('<ol class=custom-list><li></li></ol>')">📜List</div>
+            <div id="" class="side-button" onclick="fix_notebook_lines()">🔨Fix lines</div>
+            
         </div>
         <div id='injectHtml'>
             <input id="chapter" placeholder="Chapter" />
