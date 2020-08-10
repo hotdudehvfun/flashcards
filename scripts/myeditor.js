@@ -254,7 +254,8 @@ let listIndeces=
     class_11_old_history,
     essay_writing,
     class_12_history_themes,
-    mocks
+    mocks,
+    geography_notes
 ];
 
 function prepareChapterDialog()
@@ -269,8 +270,7 @@ function prepareChapterDialog()
     prepareIndex("GS Essay",5);
     prepareIndex("Class 12 Themes",6);
     prepareIndex("Mock Tests",7);
-    
-    
+    prepareIndex("Geography notes",8);
     
     
     //default load
