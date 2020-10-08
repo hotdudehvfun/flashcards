@@ -128,8 +128,8 @@ span#dummy {
   display: flex;
   flex-direction: column;
   position: relative;
-  width: 80%;
-  min-width: 320px;
+  width: 100%;
+  max-width: 1000px;
   height: 70%;
   min-height: 450px;
   background: #dfe6ec;
@@ -157,6 +157,7 @@ span#dummy {
   flex-direction: row;
   padding: 5px;
   height: 100%;
+  width: 100%;
 }
 
 #chapters-list>#tabs{
@@ -172,12 +173,16 @@ span#dummy {
   color: #E91E63;
 }
 
+#chapters-list>#tabs>article:hover{
+  background: white;
+  color: #E91E63;
+}
+
 #chapters-list>#tabs>article
 {
     cursor: pointer;
     padding: 5px 15px;
     color: #333;
-    transition: 0.5s all;
 }
 
 #chapters-list>#tab-content>div {
@@ -210,11 +215,9 @@ div#tab-content {
   align-self: center;
   background: #E91E63;
   padding: 5px 15px;
-  font-weight: bold;
   position: absolute;
   color: white;
-  right: -15px;
-  top: -17px;
+  top: -30px;
   cursor: pointer;
 }
 

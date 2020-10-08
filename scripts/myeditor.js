@@ -3,40 +3,114 @@ let showHint = false;
 let hintBox = document.querySelector('.suggestions');
 let selectedNode = 0;
 let currentWord = "null";
+
 window.onload=function()
 {
     handleAutoSave();
-    try 
+    try
     {
         let args=this.getUrlVars();
         //console.log(args);
         if(args.listIndex!=undefined && args.chapterIndex!=undefined)
         {
             document.querySelector("#injectHtml").innerHTML = listIndeces[args.listIndex][args.chapterIndex].content;
-            document.querySelector('.load-chapter-parent').style.display = "none";            
-        }                
+            document.querySelector('.load-chapter-parent').style.display = "none";
+        }
     } catch (error) {
-        
+
     }
     prepareChapterDialog();
     cleanEditor();
     update_word_count()
+
+
+
+   handleDrag()
 }
+
+let canEdit=true;
+let allowDrag=false;
+let startPos=null,endPos=null,currentPos=null;
+function handleReadMode()
+{
+    canEdit=!canEdit;
+    document.querySelector(".editor").setAttribute("contenteditable",canEdit);
+    document.querySelector("#read_mode").innerHTML="Editable:"+canEdit;
+
+    // user select none
+    document.querySelector(".editor").style.userSelect="none";
+    document.querySelector(".editor").style.cursor="grab";
+}
+
+function handleDrag()
+{
+    if ('scrollRestoration' in window.history) {
+        window.history.scrollRestoration = 'manual'
+      }
+    document.querySelector("#editor").addEventListener("mousedown",function(e)
+    {
+        if(!canEdit)
+        {
+            document.querySelector(".editor").style.cursor="grabbing";
+            allowDrag=true;
+            startPos=e;
+        }
+    });
+
+    document.querySelector("#editor").addEventListener("mouseup",function(e)
+    {
+        if(!canEdit)
+        {
+            document.querySelector(".editor").style.cursor="grab";
+            allowDrag=false;
+            endPos=e;
+        }
+    });
+
+    document.querySelector("#editor").addEventListener("mousemove",function(e)
+    {
+        if(!canEdit)
+        {
+            currentPos=e;
+            //calculate how much to scroll
+            if(allowDrag)
+            {
+                let d=getDisplacement(startPos,endPos,currentPos);
+                console.log(d);
+                document.querySelector("#injectHtml").scrollBy(0,d.y)
+            }
+            startPos=currentPos
+        }
+    });
+
+
+}
+
+function getDisplacement(start,end,curr)
+{
+    let d={x:0,y:0,speedX:5,speedY:4};
+    // d.x = (start.clientX-curr.clientX)<0 ?-1:1;
+    // d.y = (start.clientY-curr.clientY)<0 ?-1:1;
+    d.x = (start.clientX-curr.clientX)
+    d.y = (start.clientY-curr.clientY)
+    return d;
+}
+
 
 function cleanEditor()
 {
     document.querySelectorAll("div").forEach(item=>{
         item.removeAttribute("style");
     })
-    
+
     document.querySelectorAll("span").forEach(item=>{
         item.removeAttribute("style");
     })
-    
+
     document.querySelectorAll("li").forEach(item=>{
         item.removeAttribute("style");
     })
-    
+
     document.querySelectorAll("ol").forEach(item=>{
         item.removeAttribute("style");
     })
@@ -52,7 +126,7 @@ function insertTab(arg)
     if (!sel.rangeCount) return;
     const range = sel.getRangeAt(0);
     range.collapse(true);
-    
+
     const span = document.createElement('span');
     span.appendChild(document.createTextNode('\t'));
     span.style.whiteSpace = 'pre';
@@ -69,13 +143,13 @@ function insertTab(arg)
 
 document.addEventListener("keypress",function()
 {
-    
+
 });
 
 document.addEventListener("keyup",function(){
     console.log(event.keyCode);
     changeFileName();
-    //escape key 
+    //escape key
     if (event.keyCode == 27)
     {
         resetHintBox();
@@ -89,12 +163,25 @@ document.addEventListener("keyup",function(){
 
     update_info_bar(event)
     //highlight_current_row(event)
+
+
+    //ctrl + s
+    if (event.ctrlKey && event.keyCode == 83)
+    {
+        console.log("saving");
+        event.preventDefault();
+        let output = `,{ title: "${document.querySelector('#chapter').value} ${document.querySelector('.subtitle').value} ",`;
+        output += "content:" + '`' + document.querySelector('#injectHtml').innerHTML.trim() + "`}";
+        //console.log(output);
+        copyToClipboard(output);
+        save_data_to_file(output)
+    }
 })
 
 
 document.addEventListener('keydown', function ()
 {
-       
+
     if (event.ctrlKey && event.keyCode == 79) {
         console.log("open dialog");
         event.preventDefault();
@@ -104,7 +191,6 @@ document.addEventListener('keydown', function ()
     if (event.ctrlKey && event.keyCode == 83)
     {
         event.preventDefault();
-        saveChapter();
     }
 
     if (event.ctrlKey && event.keyCode == 76) {
@@ -128,7 +214,7 @@ document.addEventListener('keydown', function ()
         insertTab("down");
         event.preventDefault();
     }
-    
+
 
     if (event.ctrlKey && event.keyCode == 69) {
         console.log("align");
@@ -158,14 +244,7 @@ document.addEventListener('keydown', function ()
 
 
 
-    if (event.ctrlKey && event.keyCode == 83) {
-        console.log("saving");
-        event.preventDefault();
-        let output = `,{ title: "${document.querySelector('#chapter').value} ${document.querySelector('.subtitle').value} ",`;
-        output += "content:" + '`' + document.querySelector('#injectHtml').innerHTML.trim() + "`}";
-        //console.log(output);
-        copyToClipboard(output);
-    }
+
 
 
     if (hintBox.innerHTML.length>0)
@@ -175,9 +254,9 @@ document.addEventListener('keydown', function ()
                 event.preventDefault();
         }
     }
-    handleHint(event); 
+    handleHint(event);
 
-    
+
 
 
 })
@@ -188,7 +267,7 @@ function handleAutoSave()
     setInterval(function()
     {
         saveChapter(0);
-        
+
     },1000*60);
 }
 
@@ -202,7 +281,7 @@ function saveChapter(args)
     localStorage.chapterData=output;
     if(args==undefined)
         copyToClipboard(output);
-    
+
     //cleanEditor();
 
     //call ajax here
@@ -211,24 +290,19 @@ function saveChapter(args)
 
 function save_data_to_file(output)
 {
-    let args=window.location.href.split("?")
-    if(args.length==2)
+    //new file is open
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function()
     {
-        args=args[1]
-        args+="&data="+output
-        var xhttp = new XMLHttpRequest();
-        xhttp.onreadystatechange = function()
+        if (this.readyState == 4 && this.status == 200)
         {
-            if (this.readyState == 4 && this.status == 200)
-            {
-                console.log("response="+this.responseText)
-            }
-        };
-        xhttp.open("POST", "../flashcards/cgi/save_data.py", true);
-        xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        xhttp.send(JSON.stringify(args));
-    }
-      
+            console.log("response="+this.responseText)
+        }
+    };
+    xhttp.open("POST", "../flashcards/cgi/save_data.php", true);
+    xhttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+    xhttp.send("data="+output);
+
 }
 
 
@@ -242,7 +316,7 @@ function changeColor()
     original=original.substring(0,range.startOffset)+"<span class='myBold'>"+original.substring(range.startOffset,range.endOffset)+"</span>"+original.substring(range.endOffset);
     console.log(original);
     p.innerHTML=original;
-    
+
 }
 
 let listIndeces=
@@ -255,24 +329,40 @@ let listIndeces=
     essay_writing,
     class_12_history_themes,
     mocks,
-    geography_notes
+    geography_notes,
+    pib,
+    modern_history_bipin_chandra,
+    vision_ias_365,
+    organisations,
+    environment,
+    miscellaneous,
+    coi
 ];
 
 function prepareChapterDialog()
 {
     //also in listIndeces name of array
     //text, list index
-    prepareIndex("Spectrum Chapters",0);
-    prepareIndex("Class 6 History",1);
-    prepareIndex("Class 12 History",2);
-    prepareIndex("Polity",3);
-    prepareIndex("Class 11 History Old",4);
-    prepareIndex("GS Essay",5);
-    prepareIndex("Class 12 Themes",6);
-    prepareIndex("Mock Tests",7);
-    prepareIndex("Geography notes",8);
+    let index=0
+    prepareIndex("Spectrum Chapters",index++);
+    prepareIndex("Class 6 History",index++);
+    prepareIndex("Class 12 History",index++);
+    prepareIndex("Polity",index++);
+    prepareIndex("Class 11 History Old",index++);
+    prepareIndex("GS Essay",index++);
+    prepareIndex("Class 12 Themes",index++);
+    prepareIndex("Mock Tests",index++);
+    prepareIndex("Geography notes",index++);
+    prepareIndex("PIB",index++);
+    prepareIndex("Modern History Bipin C",index++);
+    prepareIndex("Vision IAS 365",index++);
+    prepareIndex("Organisations",index++);
+    prepareIndex("Environment",index++);
+    prepareIndex("Miscellaneous",index++);
+    prepareIndex("COI",index++);
     
-    
+
+
     //default load
     loadChatersOfSubject("Spectrum Chapters",0);
 }
@@ -280,7 +370,7 @@ function prepareChapterDialog()
 // load chapters of subjects
 function prepareIndex(heading,listIndex)
 {
-  
+
     let tabs=document.querySelector("#tabs");
     //console.log(tabs)
     let article =document.createElement("article");
@@ -288,7 +378,7 @@ function prepareIndex(heading,listIndex)
     article.setAttribute("data-isChildInView","true")
     article.addEventListener("click",function()
     {
-        loadChatersOfSubject(heading,listIndex);        
+        loadChatersOfSubject(heading,listIndex);
     });
     tabs.appendChild(article);
 }
@@ -312,10 +402,10 @@ function loadChatersOfSubject(heading,listIndex)
 
     //update active
     if(document.querySelector(".active")!=null)
-        document.querySelector(".active").className=""; 
-        
+        document.querySelector(".active").className="";
+
     document.querySelector("#tabs").children[listIndex].setAttribute("class","active");
-    
+
 
 }
 
@@ -363,7 +453,7 @@ function showHintBox()
     console.log('hint on')
     positionHintBox();
     selectedNode = -1;
-    
+
 }
 
 function handleHint(event)
@@ -387,7 +477,7 @@ function handleHint(event)
             // console.log(selectedNode);
             hintBox.childNodes[selectedNode].className = 'selectedHint';
         }
-        
+
         if (event.keyCode == 40)
         {
             //down
@@ -410,8 +500,8 @@ function handleHint(event)
                 //use this word
                 let wordToInsert = document.querySelector('.selectedHint').innerText.trim();
                 insertHint(wordToInsert, getCurrentWord());
-                console.log("inserting word",wordToInsert);                
-            }        
+                console.log("inserting word",wordToInsert);
+            }
             hintBox.style.display = "none";
             hintBox.innerHTML="";
             selectedNode=-1;
@@ -434,7 +524,7 @@ function loadHintsInHintBox()
         let removePos=words.indexOf(currentWord)
         if(removePos!=-1)
             words.splice(removePos,1);
-        
+
         //filter words
         let hint_array=[]
         words.forEach(item=>
@@ -445,7 +535,7 @@ function loadHintsInHintBox()
                 hint_array.push({rank:index_of,text:item})
             }
         });
-    
+
         hint_array.sort(function(a,b){return (a.rank-b.rank)})
         console.log(hint_array)
         let html = '';
@@ -514,59 +604,63 @@ function isAlphanumeric(char) {
 
 function getCurrentWord() {
 
-    let currentWord = "";
-    let range = window.getSelection().getRangeAt(0);
-    let wholeText = range.endContainer.wholeText.toString();
-    let pos = range.endOffset;
-    // console.log(pos, wholeText, wholeText.length);
-    if (wholeText.length > 0) {
-        if (pos == 0) {
-            //cursor at 0 and next is a char
-            if (isAlphanumeric(wholeText[pos + 1])) {
-                //then current word is 0 to space
-                // console.log("start");
-                currentWord = wholeText.substring(0, wholeText.indexOf(" "));
-            }
-        }
-        if (pos == wholeText.length) {
-            //cursor at end of string
-            // console.log("end")
-            if (isAlphanumeric(wholeText[pos - 1])) {
-                //check if left of cursor is a char
-                currentWord = wholeText.substring(wholeText.lastIndexOf(" "), pos);
-            }
-        }
-        if (pos < wholeText.length && pos > 0) {
-            //pos is between wholetext
-            if (isAlphanumeric(wholeText[pos - 1]) && wholeText[pos] == " ") {
-                // console.log('testign -1 +1',wholeText[pos-1],wholeText[pos])
-                // //abc abc| abc
-                currentWord = wholeText.substring(0, pos);
-                currentWord = currentWord.substring(currentWord.lastIndexOf(" ") + 1, pos);
-
-            } else if (isAlphanumeric(wholeText[pos]) && wholeText[pos - 1] == " ") {
-                //abc |abc abc
-                // console.log('not working')
-                currentWord = wholeText.substring(pos, wholeText.indexOf(" ", pos));
-            } else if (isAlphanumeric(wholeText[pos]) && isAlphanumeric(wholeText[pos - 1])) {
-                //abc abc a|b
-                //abc abc abc   
-                //console.log('wokring')
-                let a = wholeText.substring(0, pos);
-                let b = wholeText.substring(pos, wholeText.length);
-                let nextspace = b.indexOf(" ");
-                if (nextspace == -1) {
-                    //last word no space
-                    currentWord = a.substring(a.lastIndexOf(" ") + 1) + b;
-                } else {
-                    currentWord = a.substring(a.lastIndexOf(" ") + 1) + b.substring(0, b.indexOf(" "));
-
+    try {
+        let currentWord = "";
+        let range = window.getSelection().getRangeAt(0);
+        let wholeText = range.endContainer.wholeText.toString();
+        let pos = range.endOffset;
+        // console.log(pos, wholeText, wholeText.length);
+        if (wholeText.length > 0) {
+            if (pos == 0) {
+                //cursor at 0 and next is a char
+                if (isAlphanumeric(wholeText[pos + 1])) {
+                    //then current word is 0 to space
+                    // console.log("start");
+                    currentWord = wholeText.substring(0, wholeText.indexOf(" "));
                 }
             }
+            if (pos == wholeText.length) {
+                //cursor at end of string
+                // console.log("end")
+                if (isAlphanumeric(wholeText[pos - 1])) {
+                    //check if left of cursor is a char
+                    currentWord = wholeText.substring(wholeText.lastIndexOf(" "), pos);
+                }
+            }
+            if (pos < wholeText.length && pos > 0) {
+                //pos is between wholetext
+                if (isAlphanumeric(wholeText[pos - 1]) && wholeText[pos] == " ") {
+                    // console.log('testign -1 +1',wholeText[pos-1],wholeText[pos])
+                    // //abc abc| abc
+                    currentWord = wholeText.substring(0, pos);
+                    currentWord = currentWord.substring(currentWord.lastIndexOf(" ") + 1, pos);
+
+                } else if (isAlphanumeric(wholeText[pos]) && wholeText[pos - 1] == " ") {
+                    //abc |abc abc
+                    // console.log('not working')
+                    currentWord = wholeText.substring(pos, wholeText.indexOf(" ", pos));
+                } else if (isAlphanumeric(wholeText[pos]) && isAlphanumeric(wholeText[pos - 1])) {
+                    //abc abc a|b
+                    //abc abc abc
+                    //console.log('wokring')
+                    let a = wholeText.substring(0, pos);
+                    let b = wholeText.substring(pos, wholeText.length);
+                    let nextspace = b.indexOf(" ");
+                    if (nextspace == -1) {
+                        //last word no space
+                        currentWord = a.substring(a.lastIndexOf(" ") + 1) + b;
+                    } else {
+                        currentWord = a.substring(a.lastIndexOf(" ") + 1) + b.substring(0, b.indexOf(" "));
+
+                    }
+                }
+            }
+            //console.log(currentWord);
         }
-        //console.log(currentWord);
+        return currentWord.trim();
+    } catch (error) {
+        return null;
     }
-    return currentWord.trim();
 }
 
 function insertHtmlAtCursor(html) {
@@ -586,21 +680,21 @@ function insertHint(newWord, oldWord)
 {
     let range = window.getSelection().getRangeAt(0);
     console.log(range);
-    
+
     let text=range.endContainer;
     let offset=range.endOffset;
     console.log(text,offset)
-    
+
     // this is text to insert hint
     //0-pos- + newword + pos-end
-    
+
     //a=0-offset-oldword len
     //b=new word
     //c= offset - end
 
     //line=a + b + c
     let str=text.wholeText
-    let a=str.substring(0, offset-oldWord.length) 
+    let a=str.substring(0, offset-oldWord.length)
     let b=newWord
     let c=str.substring(offset)
     console.log(a,b,c)
@@ -635,13 +729,7 @@ function handleNewChapter()
     window.location="../flashcards/index.html";
 }
 
-var readMode=true;
-function handleReadMode()
-{
-    readMode=!readMode;
-    document.querySelector(".editor").setAttribute("contenteditable",readMode);
-    document.querySelector("#read_mode").innerHTML="Editable:"+readMode;
-}
+
 
 var dark_theme=false;
 function toggleTheme()
@@ -668,7 +756,7 @@ function update_info_bar(event)
             p=p.parentElement;
         }
         tree.innerHTML+="editor";
-        
+
         update_word_count();
     }
 }
@@ -689,8 +777,8 @@ function highlight_current_row(event)
         let p=range.endContainer;
         if(document.querySelector(".highlight_row")!=null)
            document.querySelector(".highlight_row").className=""
-    
-        
+
+
         if(p.id!="editor")
         {
             if (p.nodeType==3)
@@ -711,8 +799,8 @@ function fix_notebook_lines()
     {
         let h=document.querySelector(".editor").firstElementChild.getBoundingClientRect().height
         document.querySelector(".editor").style.backgroundSize=`100% ${h}px`
-        
+
     } catch (error) {
-        
+
     }
 }

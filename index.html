@@ -9,13 +9,27 @@
     <script src="scripts/polity.js"></script>
     <script src="scripts/class_12_history.js"></script>
     <script src="scripts/class_6_history.js"></script>
-    <script src="scripts/class_11_old_history.js"></script>  
+    <script src="scripts/class_11_old_history.js"></script>
     <script src="scripts/essay_writing.js"></script>
     <script src="scripts/class_12_history_themes.js"></script>
     <script src="scripts/mocks.js"></script>
     <script src="scripts/geography_notes.js"></script>
+    <script src="scripts/pib.js"></script>
+    <script src="scripts/modern_history_bipin_chandra.js"></script>
+    <script src="scripts/vision_ias_365.js"></script>
+    <script src="scripts/organisations.js"></script>
+    <script src="scripts/environment.js"></script>
+    <script src="scripts/miscellaneous.js"></script>
+    <script src="scripts/coi.js"></script>
     
-    
+
+    <script id='editor-script' src="scripts/scroll_with_drag.js"></script>
+
+
+
+
+
+
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 </head>
@@ -32,7 +46,7 @@
             </div>
             <div id="" class="side-button" onclick="insertHtmlAtCursor('<ol class=custom-list><li></li></ol>')">📜List</div>
             <div id="" class="side-button" onclick="fix_notebook_lines()">🔨Fix lines</div>
-            
+
         </div>
         <div id='injectHtml'>
             <input id="chapter" placeholder="Chapter" />
@@ -46,31 +60,32 @@
             <div id="word_count">wc:</div>
         </div>
     </div>
-      
+
 
 
     <!-- extra tools -->
     <ul class="suggestions"></ul>
-    
+
     <div class="load-chapter-parent" style="display: none;">
         <div class="load-chapter">
             <div style="
             display: flex;
             justify-content: space-between;
         ">
-                <div class="close-button" onclick="closeChapterDialog()">X</div>
+                <div class="close-button" onclick="closeChapterDialog()">close</div>
             </div>
         <div id="chapters-list">
             <div id="tabs">
             </div>
-            
+
             <div id="tab-content">
             </div>
         </div>
     </div>
     </div>
     <script id='editor-script' src="scripts/myeditor.js"></script>
-    
+
+
 </body>
 
 </html>
