@@ -1,0 +1,2 @@
+October 13, 2020, 8:51 pm:{"data":"{ title: \"  \",content:`<input id=\"chapter\" placeholder=\"Chapter\">\n            <input id=\"subtitle\" class=\"subtitle\" placeholder=\"Chapter Name\">\n            <div id=\"editor\" class=\"editor\" contenteditable=\"true\">\n                <article>Type Here<\/article>\n            <\/div>`}"}
+-------------------------

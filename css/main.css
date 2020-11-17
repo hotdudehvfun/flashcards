@@ -299,7 +299,7 @@ div#injectHtml {
 .dark_theme b
 {
   background:#54545459;
-  color:white
+  color: #009688;
 }
 
 .dark_theme .info-bar
@@ -322,6 +322,6 @@ div#injectHtml {
 @charset "UTF-8";
 .custom-list li:before
 {
-  content:"📜";
+  content:"ðŸ“œ";
   font-size: 16px;
 }

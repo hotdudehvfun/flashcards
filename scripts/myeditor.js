@@ -4,6 +4,13 @@ let hintBox = document.querySelector('.suggestions');
 let selectedNode = 0;
 let currentWord = "null";
 
+window.onbeforeunload=function()
+{
+    return("Are your sure you want to close notebook?")
+
+}
+
+
 window.onload=function()
 {
     handleAutoSave();
@@ -47,7 +54,7 @@ function handleDrag()
     if ('scrollRestoration' in window.history) {
         window.history.scrollRestoration = 'manual'
       }
-    document.querySelector("#editor").addEventListener("mousedown",function(e)
+    document.querySelector(".editor").addEventListener("mousedown",function(e)
     {
         if(!canEdit)
         {
@@ -57,7 +64,7 @@ function handleDrag()
         }
     });
 
-    document.querySelector("#editor").addEventListener("mouseup",function(e)
+    document.querySelector(".editor").addEventListener("mouseup",function(e)
     {
         if(!canEdit)
         {
@@ -67,7 +74,7 @@ function handleDrag()
         }
     });
 
-    document.querySelector("#editor").addEventListener("mousemove",function(e)
+    document.querySelector(".editor").addEventListener("mousemove",function(e)
     {
         if(!canEdit)
         {
@@ -360,7 +367,7 @@ function prepareChapterDialog()
     prepareIndex("Environment",index++);
     prepareIndex("Miscellaneous",index++);
     prepareIndex("COI",index++);
-    
+
 
 
     //default load
